@@ -1,4058 +1,2577 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>SHUKATSU | 就活管理</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>野球成績管理</title>
 
 <style>
+*{box-sizing:border-box}
 
-/* ========================================
-   基本
-======================================== */
-
-* {
-  box-sizing: border-box;
-}
-
-:root {
-
-  --navy: #0f172a;
-  --navy2: #172554;
-
-  --blue: #2563eb;
-  --blue-light: #dbeafe;
-
-  --red: #ef4444;
-  --red-light: #fee2e2;
-
-  --green: #10b981;
-  --green-light: #d1fae5;
-
-  --purple: #8b5cf6;
-  --purple-light: #ede9fe;
-
-  --orange: #f59e0b;
-  --orange-light: #fef3c7;
-
-  --bg: #eef2f7;
-
-  --text: #1e293b;
-  --sub: #64748b;
-
-  --border: #e2e8f0;
-
-  --white: #ffffff;
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Yu Gothic",Meiryo,sans-serif;
+    background:#f4f6f8;
+    color:#222;
 }
-
-
-body {
-
-  margin: 0;
 
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Noto Sans JP",
-    sans-serif;
+button,input,select{font:inherit}
 
-  background:
+button{cursor:pointer}
 
-    radial-gradient(
-      circle at top right,
-      #dbeafe 0,
-      transparent 30%
-    ),
+.hidden{display:none!important}
 
-    var(--bg);
-
-  color: var(--text);
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
 }
-
-
-/* ========================================
-   アプリ全体
-======================================== */
-
-.app {
 
-  display: flex;
-
-  min-height: 100vh;
-
+.card{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
-
-
-/* ========================================
-   サイドバー
-======================================== */
-
-.sidebar {
-
-  position: fixed;
-
-  top: 0;
-  left: 0;
-
-  width: 250px;
-  height: 100vh;
-
-  padding: 30px 20px;
-
-  color: white;
-
-  background:
-    linear-gradient(
-      180deg,
-      #0f172a,
-      #172554
-    );
-
-  box-shadow:
-    5px 0 25px
-    rgba(15,23,42,.15);
 
-  z-index: 100;
+h1,h2,h3{margin-top:0}
 
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:10px 16px;
+    font-weight:bold;
+    margin:3px;
 }
 
-
-.logo {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-  margin-bottom: 45px;
-
+.blue{
+    background:#0866d6;
+    color:white;
 }
-
-
-.logo-icon {
 
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 42px;
-  height: 42px;
-
-  border-radius: 12px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #3b82f6,
-      #6366f1
-    );
-
-  font-size: 21px;
-
+.gray{
+    background:#eee;
+    color:#333;
 }
-
-
-.logo-text strong {
 
-  display: block;
-
-  font-size: 18px;
-
-  letter-spacing: 1px;
-
+.red{
+    background:#e53935;
+    color:white;
 }
-
-
-.logo-text span {
-
-  display: block;
-
-  margin-top: 2px;
-
-  color: #94a3b8;
 
-  font-size: 10px;
-
-  letter-spacing: 1px;
-
+.green{
+    background:#198754;
+    color:white;
 }
-
-
-.menu-title {
-
-  margin:
-    0 0 10px 10px;
-
-  color: #64748b;
-
-  font-size: 10px;
-
-  font-weight: bold;
 
-  letter-spacing: 1.5px;
-
+input,select{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    background:white;
 }
-
-
-.menu {
-
-  display: flex;
 
-  flex-direction: column;
-
-  gap: 5px;
-
+label{
+    font-size:13px;
+    font-weight:bold;
+    color:#555;
+    display:block;
+    margin-bottom:5px;
 }
-
-
-.menu-item {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 13px;
-
-  padding: 13px 14px;
-
-  border-radius: 10px;
-
-  color: #cbd5e1;
-
-  font-size: 14px;
-
-  cursor: pointer;
 
-  transition: .2s;
-
+.form{
+    margin-bottom:15px;
 }
-
-
-.menu-item:hover,
-.menu-item.active {
-
-  background:
-    rgba(255,255,255,.1);
 
-  color: white;
-
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
 }
-
 
-.menu-item.active {
+/* LOGIN */
 
-  box-shadow:
-    inset 3px 0 0 #60a5fa;
-
+.login{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:linear-gradient(135deg,#0757c8,#1592e6);
 }
-
 
-.menu-icon {
-
-  width: 22px;
-
-  text-align: center;
-
-  font-size: 17px;
-
+.login-box{
+    width:100%;
+    max-width:430px;
+    background:white;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
 }
-
-
-.sidebar-bottom {
-
-  position: absolute;
-
-  left: 20px;
-  right: 20px;
-  bottom: 25px;
 
-  padding: 15px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.08);
-
-  border-radius: 12px;
-
-  background:
-    rgba(255,255,255,.05);
-
+.login-box h1{
+    text-align:center;
+    color:#0757c8;
 }
-
-
-.sidebar-bottom p {
-
-  margin: 0;
-
-  color: #94a3b8;
 
-  font-size: 11px;
-
+.login-box button{
+    width:100%;
+    margin-top:10px;
 }
-
-
-.sidebar-bottom strong {
-
-  display: block;
 
-  margin-top: 4px;
-
-  font-size: 13px;
-
+.suggestion-box{
+    position:relative;
 }
-
-
-/* ========================================
-   メイン
-======================================== */
 
-.main {
-
-  width: calc(100% - 250px);
-
-  margin-left: 250px;
-
-  padding: 35px 45px 60px;
-
+.suggestions{
+    position:absolute;
+    z-index:20;
+    left:0;
+    right:0;
+    top:100%;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:0 0 8px 8px;
+    overflow:hidden;
 }
 
-
-.page {
-
-  display: none;
-
+.suggestion{
+    padding:12px;
+    cursor:pointer;
 }
-
 
-.page.active {
-
-  display: block;
-
+.suggestion:hover{
+    background:#edf4ff;
 }
-
-
-/* ========================================
-   共通
-======================================== */
-
-.topbar,
-.interview-header,
-.company-header {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
 
-  margin-bottom: 30px;
+/* HEADER */
 
+.header{
+    height:62px;
+    background:#0757c8;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
 }
 
-
-.topbar h1,
-.interview-header h1,
-.company-header h1 {
-
-  margin: 0;
-
-  color: var(--navy);
-
-  font-size: 28px;
-
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
-
-
-.topbar p,
-.interview-header p,
-.company-header p {
-
-  margin:
-    5px 0 0;
 
-  color: var(--sub);
+/* LAYOUT */
 
-  font-size: 13px;
-
+.layout{
+    display:flex;
+    min-height:calc(100vh - 62px);
 }
-
-
-.card {
-
-  border:
-    1px solid
-    rgba(255,255,255,.8);
 
-  border-radius: 18px;
-
-  background:
-    rgba(255,255,255,.93);
-
-  box-shadow:
-    0 10px 30px
-    rgba(15,23,42,.07);
-
+.sidebar{
+    width:220px;
+    background:white;
+    padding:15px;
+    border-right:1px solid #ddd;
 }
-
 
-input,
-select,
-textarea {
-
-  width: 100%;
-
-  padding: 12px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 9px;
-
-  background: white;
-
-  color: var(--text);
-
-  font-family: inherit;
-
-  font-size: 13px;
-
+.side-btn{
+    width:100%;
+    text-align:left;
+    border:none;
+    background:white;
+    padding:13px;
+    border-radius:8px;
+    font-weight:bold;
+    margin-bottom:5px;
 }
-
-
-textarea {
-
-  min-height: 100px;
 
-  resize: vertical;
-
+.side-btn:hover,
+.side-btn.active{
+    background:#eaf2ff;
+    color:#0757c8;
 }
-
-
-input:focus,
-select:focus,
-textarea:focus {
-
-  outline: none;
 
-  border-color: var(--blue);
-
-  box-shadow:
-    0 0 0 3px
-    rgba(37,99,235,.1);
-
+.main{
+    flex:1;
+    padding:25px;
 }
-
-
-.form-group {
 
-  margin-bottom: 16px;
+/* GAME */
 
+.game{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
 }
-
-
-label {
-
-  display: block;
-
-  margin-bottom: 7px;
 
-  color: #334155;
-
-  font-size: 11px;
-
-  font-weight: 700;
-
+.game-info{
+    flex:1;
 }
-
-
-.add-button {
-
-  width: 100%;
-
-  padding: 14px;
-
-  border: none;
 
-  border-radius: 10px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #4f46e5
-    );
-
-  color: white;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
+.game-info small{
+    display:block;
+    color:#777;
+    margin-top:5px;
 }
-
-
-.time-select {
-
-  display: flex;
 
-  align-items: center;
+/* PA */
 
-  gap: 7px;
-
+.pa{
+    background:#fafafa;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:12px;
 }
-
-
-.time-select select {
-
-  width: 50%;
 
+.pa-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:bold;
 }
-
-
-/* ========================================
-   ダッシュボード
-======================================== */
-
-.stats {
-
-  display: grid;
 
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap: 18px;
-
-  margin-bottom: 25px;
-
+.pa-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr 100px 100px 100px;
+    gap:10px;
+    margin-top:12px;
 }
-
-
-.stat-card {
-
-  padding: 20px;
-
-  border-radius: 16px;
-
-  background:
-    rgba(255,255,255,.9);
 
-  box-shadow:
-    0 8px 25px
-    rgba(15,23,42,.06);
+/* PREVIEW */
 
+.preview{
+    margin-top:20px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    overflow:hidden;
+    background:white;
 }
 
-
-.stat-top {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
+.preview-title{
+    background:#f0f3f7;
+    padding:12px;
+    font-weight:bold;
 }
-
-
-.stat-label {
-
-  color: var(--sub);
 
-  font-size: 12px;
-
-  font-weight: 600;
-
+.preview-row{
+    display:grid;
+    grid-template-columns:100px 1fr 80px 80px 80px;
+    gap:10px;
+    padding:12px;
+    border-bottom:1px solid #eee;
 }
-
-
-.stat-icon {
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 36px;
-  height: 36px;
-
-  border-radius: 10px;
 
+.total{
+    padding:15px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    font-weight:bold;
 }
 
+/* TABLE */
 
-.icon-blue {
-  background: var(--blue-light);
+.table-wrap{
+    overflow-x:auto;
 }
 
-.icon-red {
-  background: var(--red-light);
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
 }
 
-.icon-green {
-  background: var(--green-light);
+th,td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+    text-align:center;
+    white-space:nowrap;
 }
 
-.icon-purple {
-  background: var(--purple-light);
+th{
+    background:#f0f3f7;
+    font-size:13px;
 }
 
+/* STAT */
 
-.stat-number {
-
-  margin-top: 12px;
-
-  color: var(--navy);
-
-  font-size: 30px;
-
-  font-weight: 800;
-
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:12px;
 }
-
-
-.stat-number span {
-
-  margin-left: 3px;
 
-  color: var(--sub);
-
-  font-size: 12px;
-
-  font-weight: normal;
-
+.stat{
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
-
-
-/* ========================================
-   カレンダー
-======================================== */
-
-.content-grid {
-
-  display: grid;
-
-  grid-template-columns:
-    minmax(0,1fr)
-    350px;
 
-  gap: 22px;
-
+.stat-name{
+    font-size:13px;
+    color:#777;
 }
-
-
-.calendar-card {
-
-  padding: 22px;
 
+.stat-value{
+    font-size:25px;
+    font-weight:bold;
+    margin-top:5px;
 }
-
-
-.calendar-header {
-
-  display: flex;
-
-  justify-content: space-between;
 
-  align-items: center;
+/* RANK */
 
-  margin-bottom: 20px;
-
+.rank-tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
 }
-
-
-.calendar-title {
-
-  display: flex;
 
-  align-items: center;
-
-  gap: 12px;
-
+.rank-tab{
+    border:1px solid #ccc;
+    background:white;
+    border-radius:20px;
+    padding:8px 15px;
 }
-
-
-.calendar-title-icon {
 
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 42px;
-  height: 42px;
-
-  border-radius: 12px;
-
-  background: var(--blue-light);
-
+.rank-tab.active{
+    background:#0757c8;
+    color:white;
+    border-color:#0757c8;
 }
-
 
-.calendar-title h2 {
+@media(max-width:800px){
 
-  margin: 0;
-
-  font-size: 20px;
-
-}
+    .layout{
+        display:block;
+    }
 
+    .sidebar{
+        width:100%;
+        display:flex;
+        overflow-x:auto;
+        border-right:none;
+        border-bottom:1px solid #ddd;
+    }
 
-.calendar-title p {
+    .side-btn{
+        width:auto;
+        min-width:110px;
+        white-space:nowrap;
+        text-align:center;
+    }
 
-  margin: 3px 0 0;
+    .main{
+        padding:15px;
+    }
 
-  color: var(--sub);
+    .pa-grid{
+        grid-template-columns:1fr 1fr;
+    }
 
-  font-size: 11px;
+    .game{
+        flex-direction:column;
+        align-items:flex-start;
+    }
 
+    .preview-row{
+        grid-template-columns:70px 1fr 60px 60px 60px;
+        font-size:13px;
+    }
 }
-
-
-.month-buttons {
-
-  display: flex;
-
-  gap: 6px;
-
-}
-
-
-.month-button {
-
-  width: 36px;
-  height: 36px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 9px;
-
-  background: white;
-
-  cursor: pointer;
-
-}
-
-
-.calendar {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(7,1fr);
-
-  overflow: hidden;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 12px;
-
-}
-
-
-.day-name {
-
-  padding: 11px 3px;
-
-  text-align: center;
-
-  background: #f8fafc;
-
-  color: var(--sub);
-
-  font-size: 11px;
-
-  font-weight: 700;
-
-  border-bottom:
-    1px solid var(--border);
-
-}
-
-
-.day {
-
-  min-height: 120px;
-
-  padding: 8px;
-
-  background: white;
-
-  border-right:
-    1px solid var(--border);
-
-  border-bottom:
-    1px solid var(--border);
-
-  cursor: pointer;
-
-}
-
-
-.date {
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 28px;
-  height: 28px;
-
-  border-radius: 50%;
-
-  font-size: 12px;
-
-  font-weight: 700;
-
-}
-
-
-.today .date {
-
-  background: var(--blue);
-
-  color: white;
-
-}
-
-
-.event {
-
-  margin-top: 4px;
-
-  padding: 6px;
-
-  border-radius: 7px;
-
-  color: white;
-
-  font-size: 10px;
-
-  line-height: 1.35;
-
-  overflow: hidden;
-
-  white-space: nowrap;
-
-  text-overflow: ellipsis;
-
-}
-
-
-.event-time {
-
-  font-size: 9px;
-
-  font-weight: 800;
-
-}
-
-
-.event.es {
-  background: #7c3aed;
-}
-
-.event.interview {
-  background: #e11d48;
-}
-
-.event.company {
-  background: #059669;
-}
-
-.event.other {
-  background: #2563eb;
-}
-
-
-/* ========================================
-   予定フォーム
-======================================== */
-
-.form-card {
-
-  padding: 24px;
-
-}
-
-
-.form-header h2 {
-
-  margin: 0;
-
-  font-size: 20px;
-
-}
-
-
-.form-header p {
-
-  margin:
-    5px 0 20px;
-
-  color: var(--sub);
-
-  font-size: 11px;
-
-}
-
-
-/* ========================================
-   面接ページ
-======================================== */
-
-.interview-layout {
-
-  display: grid;
-
-  grid-template-columns:
-    380px
-    minmax(0,1fr);
-
-  gap: 22px;
-
-}
-
-
-.question-form,
-.question-list {
-
-  padding: 25px;
-
-}
-
-
-.question-form h2,
-.question-list h2 {
-
-  margin: 0;
-
-  font-size: 20px;
-
-}
-
-
-.description {
-
-  margin:
-    5px 0 25px;
-
-  color: var(--sub);
-
-  font-size: 12px;
-
-}
-
-
-.question-count {
-
-  padding: 6px 10px;
-
-  border-radius: 20px;
-
-  background: var(--blue-light);
-
-  color: var(--blue);
-
-  font-size: 11px;
-
-  font-weight: 700;
-
-}
-
-
-.list-header {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 20px;
-
-}
-
-
-.question-item {
-
-  padding: 18px;
-
-  margin-bottom: 12px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 12px;
-
-}
-
-
-.question-top {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: flex-start;
-
-}
-
-
-.category {
-
-  display: inline-block;
-
-  padding: 5px 9px;
-
-  border-radius: 6px;
-
-  background: var(--purple-light);
-
-  color: var(--purple);
-
-  font-size: 10px;
-
-  font-weight: 700;
-
-}
-
-
-.question-text {
-
-  margin-top: 10px;
-
-  color: var(--navy);
-
-  font-size: 15px;
-
-  font-weight: 700;
-
-  line-height: 1.5;
-
-}
-
-
-.answer {
-
-  margin-top: 12px;
-
-  padding: 13px;
-
-  border-radius: 9px;
-
-  background: #f8fafc;
-
-  color: #475569;
-
-  font-size: 12px;
-
-  line-height: 1.7;
-
-  white-space: pre-wrap;
-
-}
-
-
-.memo {
-
-  margin-top: 10px;
-
-  color: var(--sub);
-
-  font-size: 11px;
-
-}
-
-
-.question-actions {
-
-  display: flex;
-
-  gap: 6px;
-
-}
-
-
-.action-button {
-
-  padding: 6px 9px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 7px;
-
-  background: white;
-
-  font-size: 10px;
-
-  cursor: pointer;
-
-}
-
-
-.action-button.delete {
-
-  color: var(--red);
-
-}
-
-
-/* ========================================
-   説明会ページ
-======================================== */
-
-.company-layout {
-
-  display: grid;
-
-  grid-template-columns:
-    380px
-    minmax(0,1fr);
-
-  gap: 22px;
-
-  align-items: start;
-
-}
-
-
-.company-form {
-
-  padding: 25px;
-
-  position: sticky;
-
-  top: 25px;
-
-}
-
-
-.company-form h2 {
-
-  margin: 0;
-
-  font-size: 20px;
-
-}
-
-
-.company-form .description {
-
-  margin-bottom: 25px;
-
-}
-
-
-/* ========================================
-   企業一覧
-======================================== */
-
-.company-list {
-
-  padding: 25px;
-
-}
-
-
-.company-list-header {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 20px;
-
-}
-
-
-.company-list-header h2 {
-
-  margin: 0;
-
-  font-size: 20px;
-
-}
-
-
-.company-filter {
-
-  width: 180px;
-
-}
-
-
-/* ========================================
-   企業カード
-======================================== */
-
-.company-card {
-
-  margin-bottom: 15px;
-
-  padding: 20px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 14px;
-
-  background: white;
-
-  transition: .2s;
-
-}
-
-
-.company-card:hover {
-
-  border-color: #bfdbfe;
-
-  box-shadow:
-    0 8px 20px
-    rgba(37,99,235,.08);
-
-}
-
-
-.company-card-top {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: flex-start;
-
-  gap: 15px;
-
-}
-
-
-.company-name {
-
-  color: var(--navy);
-
-  font-size: 18px;
-
-  font-weight: 800;
-
-}
-
-
-.company-date {
-
-  margin-top: 5px;
-
-  color: var(--sub);
-
-  font-size: 11px;
-
-}
-
-
-.stars {
-
-  color: #f59e0b;
-
-  font-size: 18px;
-
-  letter-spacing: 1px;
-
-}
-
-
-.company-info {
-
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 8px;
-
-  margin-top: 15px;
-
-}
-
-
-.info-tag {
-
-  padding: 6px 10px;
-
-  border-radius: 7px;
-
-  background: #f1f5f9;
-
-  color: #475569;
-
-  font-size: 10px;
-
-}
-
-
-.info-tag.green {
-
-  background: var(--green-light);
-
-  color: #047857;
-
-}
-
-
-.info-tag.orange {
-
-  background: var(--orange-light);
-
-  color: #b45309;
-
-}
-
-
-.company-section {
-
-  margin-top: 16px;
-
-  padding-top: 14px;
-
-  border-top:
-    1px solid #f1f5f9;
-
-}
-
-
-.company-section-title {
-
-  margin-bottom: 5px;
-
-  color: var(--sub);
-
-  font-size: 10px;
-
-  font-weight: 800;
-
-}
-
-
-.company-section-text {
-
-  color: #475569;
-
-  font-size: 12px;
-
-  line-height: 1.7;
-
-  white-space: pre-wrap;
-
-}
-
-
-.company-actions {
-
-  display: flex;
-
-  gap: 7px;
-
-  margin-top: 15px;
-
-}
-
-
-.empty {
-
-  padding: 70px 20px;
-
-  text-align: center;
-
-  color: var(--sub);
-
-}
-
-
-.empty-icon {
-
-  margin-bottom: 15px;
-
-  font-size: 45px;
-
-}
-
-
-.empty strong {
-
-  display: block;
-
-  margin-bottom: 5px;
-
-  color: var(--navy);
-
-}
-
-
-/* ========================================
-   レスポンシブ
-======================================== */
-
-@media(max-width:1100px) {
-
-  .sidebar {
-
-    width: 210px;
-
-  }
-
-  .main {
-
-    width: calc(100% - 210px);
-
-    margin-left: 210px;
-
-    padding: 25px;
-
-  }
-
-  .stats {
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-  }
-
-  .interview-layout,
-  .company-layout {
-
-    grid-template-columns: 1fr;
-
-  }
-
-  .company-form {
-
-    position: static;
-
-  }
-
-}
-
-
-@media(max-width:700px) {
-
-  .sidebar {
-
-    position: relative;
-
-    width: 100%;
-
-    height: auto;
-
-    padding: 15px;
-
-  }
-
-  .main {
-
-    width: 100%;
-
-    margin-left: 0;
-
-    padding: 20px 10px;
-
-  }
-
-  .logo {
-
-    margin-bottom: 15px;
-
-  }
-
-  .menu-title,
-  .sidebar-bottom {
-
-    display: none;
-
-  }
-
-  .menu {
-
-    display: grid;
-
-    grid-template-columns:
-      repeat(3,1fr);
-
-  }
-
-  .menu-item {
-
-    justify-content: center;
-
-    padding: 9px;
-
-    font-size: 11px;
-
-  }
-
-  .stats {
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-    gap: 10px;
-
-  }
-
-  .content-grid {
-
-    grid-template-columns: 1fr;
-
-  }
-
-  .day {
-
-    min-height: 80px;
-
-  }
-
-  .company-list-header {
-
-    align-items: flex-start;
-
-    flex-direction: column;
-
-    gap: 10px;
-
-  }
-
-  .company-filter {
-
-    width: 100%;
-
-  }
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
+<!-- =====================================================
+初回管理者設定
+===================================================== -->
 
-<div class="app">
+<div id="setupPage" class="login hidden">
+
+<div class="login-box">
+
+<h1>⚾ 初期設定</h1>
+
+<p>
+このサイトを使用するために<br>
+管理者アカウントを作成してください。
+</p>
+
+<div class="form">
+<label>管理者名</label>
+<input id="setupName" placeholder="例：監督">
+</div>
+
+<div class="form">
+<label>パスワード</label>
+<input id="setupPassword" type="password" placeholder="好きなパスワード">
+</div>
+
+<div class="form">
+<label>パスワード確認</label>
+<input id="setupPassword2" type="password" placeholder="もう一度入力">
+</div>
+
+<button class="btn blue" onclick="createAdmin()">
+管理者アカウントを作成
+</button>
+
+</div>
+</div>
 
 
-<!-- ========================================
-     サイドバー
-======================================== -->
+<!-- =====================================================
+ログイン
+===================================================== -->
+
+<div id="loginPage" class="login hidden">
+
+<div class="login-box">
+
+<h1>⚾ 野球成績管理</h1>
+
+<p style="text-align:center;color:#777">
+選手ログイン
+</p>
+
+<div class="form suggestion-box">
+
+<label>選手名</label>
+
+<input
+id="loginName"
+placeholder="名前を入力してください"
+autocomplete="off"
+>
+
+<div id="suggestions" class="suggestions hidden"></div>
+
+</div>
+
+<button class="btn blue" onclick="playerLogin()">
+選手としてログイン
+</button>
+
+<button class="btn gray" onclick="showAdminLogin()">
+管理者ログイン
+</button>
+
+</div>
+</div>
+
+
+<!-- =====================================================
+管理者ログイン
+===================================================== -->
+
+<div id="adminLoginPage" class="login hidden">
+
+<div class="login-box">
+
+<h1>管理者ログイン</h1>
+
+<div class="form">
+
+<label>管理者名</label>
+
+<input id="adminLoginName">
+
+</div>
+
+<div class="form">
+
+<label>パスワード</label>
+
+<input id="adminLoginPassword" type="password">
+
+</div>
+
+<button class="btn blue" onclick="adminLogin()">
+ログイン
+</button>
+
+<button class="btn gray" onclick="backLogin()">
+戻る
+</button>
+
+</div>
+</div>
+
+
+<!-- =====================================================
+選手画面
+===================================================== -->
+
+<div id="playerApp" class="hidden">
+
+<header class="header">
+
+<b>⚾ 野球成績管理</b>
+
+<div class="header-right">
+
+<span id="playerNameHeader"></span>
+
+<button class="btn gray" onclick="logout()">
+ログアウト
+</button>
+
+</div>
+
+</header>
+
+
+<div class="layout">
 
 <aside class="sidebar">
 
+<button
+class="side-btn active"
+onclick="playerPage('input',this)">
+📝 成績入力
+</button>
 
-  <div class="logo">
+<button
+class="side-btn"
+onclick="playerPage('total',this)">
+📊 累計成績
+</button>
 
-    <div class="logo-icon">
-      🎓
-    </div>
-
-    <div class="logo-text">
-
-      <strong>
-        SHUKATSU
-      </strong>
-
-      <span>
-        CAREER CALENDAR
-      </span>
-
-    </div>
-
-  </div>
-
-
-  <p class="menu-title">
-    MENU
-  </p>
-
-
-  <div class="menu">
-
-
-    <div
-      class="menu-item active"
-      onclick="showPage('calendarPage',this)">
-
-      <span class="menu-icon">
-        📅
-      </span>
-
-      カレンダー
-
-    </div>
-
-
-    <div
-      class="menu-item"
-      onclick="showPage('interviewPage',this)">
-
-      <span class="menu-icon">
-        💼
-      </span>
-
-      面接
-
-    </div>
-
-
-    <!-- ★ 説明会 -->
-
-    <div
-      class="menu-item"
-      onclick="showPage('companyPage',this)">
-
-      <span class="menu-icon">
-        🏢
-      </span>
-
-      説明会
-
-    </div>
-
-
-    <div class="menu-item">
-
-      <span class="menu-icon">
-        📝
-      </span>
-
-      ES締切
-
-    </div>
-
-
-    <div class="menu-item">
-
-      <span class="menu-icon">
-        ⭐
-      </span>
-
-      重要予定
-
-    </div>
-
-
-  </div>
-
-
-  <div class="sidebar-bottom">
-
-    <p>
-      YOUR CAREER
-    </p>
-
-    <strong>
-      就活を、もっとスマートに。
-    </strong>
-
-  </div>
-
+<button
+class="side-btn"
+onclick="playerPage('ranking',this)">
+🏆 ランキング
+</button>
 
 </aside>
 
 
-<!-- ========================================
-     メイン
-======================================== -->
-
 <main class="main">
 
+<!-- 成績入力 -->
 
-<!-- ========================================
-     カレンダー
-======================================== -->
+<section id="playerInputPage">
 
-<div
-  id="calendarPage"
-  class="page active">
+<h2>📝 成績入力</h2>
 
+<div class="card">
 
-  <div class="topbar">
+<h3>試合を選択</h3>
 
-    <div>
-
-      <h1>
-        ダッシュボード
-      </h1>
-
-      <p>
-        今日も就活を一歩前へ。
-      </p>
-
-    </div>
-
-  </div>
-
-
-  <div class="stats">
-
-
-    <div class="stat-card">
-
-      <div class="stat-top">
-
-        <span class="stat-label">
-          今月の予定
-        </span>
-
-        <div class="stat-icon icon-blue">
-          📅
-        </div>
-
-      </div>
-
-      <div
-        class="stat-number"
-        id="totalCount">
-
-        0
-        <span>件</span>
-
-      </div>
-
-    </div>
-
-
-    <div class="stat-card">
-
-      <div class="stat-top">
-
-        <span class="stat-label">
-          面接
-        </span>
-
-        <div class="stat-icon icon-red">
-          💼
-        </div>
-
-      </div>
-
-      <div
-        class="stat-number"
-        id="interviewCount">
-
-        0
-        <span>件</span>
-
-      </div>
-
-    </div>
-
-
-    <div class="stat-card">
-
-      <div class="stat-top">
-
-        <span class="stat-label">
-          説明会
-        </span>
-
-        <div class="stat-icon icon-green">
-          🏢
-        </div>
-
-      </div>
-
-      <div
-        class="stat-number"
-        id="companyCount">
-
-        0
-        <span>件</span>
-
-      </div>
-
-    </div>
-
-
-    <div class="stat-card">
-
-      <div class="stat-top">
-
-        <span class="stat-label">
-          ES締切
-        </span>
-
-        <div class="stat-icon icon-purple">
-          📝
-        </div>
-
-      </div>
-
-      <div
-        class="stat-number"
-        id="esCount">
-
-        0
-        <span>件</span>
-
-      </div>
-
-    </div>
-
-
-  </div>
-
-
-  <div class="content-grid">
-
-
-    <section class="card calendar-card">
-
-
-      <div class="calendar-header">
-
-        <div class="calendar-title">
-
-          <div class="calendar-title-icon">
-            📅
-          </div>
-
-          <div>
-
-            <h2 id="monthTitle"></h2>
-
-            <p>
-              あなたの就活スケジュール
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="month-buttons">
-
-          <button
-            class="month-button"
-            onclick="changeMonth(-1)">
-
-            ‹
-
-          </button>
-
-          <button
-            class="month-button"
-            onclick="changeMonth(1)">
-
-            ›
-
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="calendar"
-        id="calendar">
-
-      </div>
-
-
-    </section>
-
-
-    <section class="card form-card">
-
-
-      <div class="form-header">
-
-        <h2>
-          ＋ 予定を追加
-        </h2>
-
-        <p>
-          新しい就活予定を登録します。
-        </p>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          📅 日付
-        </label>
-
-        <input
-          type="date"
-          id="eventDate">
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          🕐 時間
-        </label>
-
-        <div class="time-select">
-
-          <select id="eventHour">
-
-            <option value="">
-              時
-            </option>
-
-          </select>
-
-          <span>:</span>
-
-          <select id="eventMinute">
-
-            <option value="">
-              分
-            </option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          📌 予定名
-        </label>
-
-        <input
-          id="eventTitle"
-          placeholder="例：株式会社〇〇 一次面接">
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          📂 カテゴリー
-        </label>
-
-        <select
-          id="eventType"
-          onchange="toggleLocation()">
-
-          <option value="es">
-            📝 ES締切
-          </option>
-
-          <option value="interview">
-            💼 面接
-          </option>
-
-          <option value="company">
-            🏢 説明会・イベント
-          </option>
-
-          <option value="other">
-            ⭐ その他
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div
-        class="form-group"
-        id="locationGroup"
-        style="display:none;">
-
-        <label>
-          📍 場所
-        </label>
-
-        <input
-          id="eventLocation"
-          placeholder="例：東京都千代田区">
-
-      </div>
-
-
-      <button
-        class="add-button"
-        onclick="addEvent()">
-
-        ＋ この予定を追加する
-
-      </button>
-
-
-    </section>
-
-
-  </div>
-
+<div id="playerGames"></div>
 
 </div>
 
 
-<!-- ========================================
-     面接
-======================================== -->
+<div id="inputCard" class="card hidden">
 
-<div
-  id="interviewPage"
-  class="page">
+<h3 id="selectedGameTitle"></h3>
 
+<div id="plateAppearances"></div>
 
-  <div class="interview-header">
+<button class="btn gray" onclick="addPA()">
+＋ 打席を追加
+</button>
 
-    <div>
+<button class="btn blue" onclick="saveRecord()">
+成績を保存
+</button>
 
-      <h1>
-        面接対策
-      </h1>
-
-      <p>
-        よく聞かれる質問と自分の回答を整理しましょう。
-      </p>
-
-    </div>
-
-    <span
-      class="question-count"
-      id="questionCount">
-
-      0問
-
-    </span>
-
-  </div>
-
-
-  <div class="interview-layout">
-
-
-    <section class="card question-form">
-
-      <h2>
-        ＋ 質問を追加
-      </h2>
-
-      <p class="description">
-        面接で聞かれそうな質問と回答を登録できます。
-      </p>
-
-
-      <div class="form-group">
-
-        <label>
-          📂 カテゴリー
-        </label>
-
-        <select id="questionCategory">
-
-          <option>
-            自己紹介
-          </option>
-
-          <option>
-            志望動機
-          </option>
-
-          <option>
-            自己PR
-          </option>
-
-          <option>
-            ガクチカ
-          </option>
-
-          <option>
-            強み・弱み
-          </option>
-
-          <option>
-            企業について
-          </option>
-
-          <option>
-            その他
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          ❓ 質問
-        </label>
-
-        <textarea
-          id="questionText"
-          placeholder="例：あなたの強みを教えてください。"></textarea>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          💬 回答
-        </label>
-
-        <textarea
-          id="answerText"
-          placeholder="実際に面接で話す回答"></textarea>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          📝 メモ
-        </label>
-
-        <textarea
-          id="memoText"
-          placeholder="話すときのポイントなど"></textarea>
-
-      </div>
-
-
-      <button
-        class="add-button"
-        onclick="addQuestion()">
-
-        ＋ 質問を登録する
-
-      </button>
-
-    </section>
-
-
-    <section class="card question-list">
-
-      <div class="list-header">
-
-        <h2>
-          質問一覧
-        </h2>
-
-        <span
-          class="question-count"
-          id="questionCount2">
-
-          0問
-
-        </span>
-
-      </div>
-
-      <div id="questionList"></div>
-
-    </section>
-
-
-  </div>
-
+<div id="todayPreview"></div>
 
 </div>
 
+</section>
 
-<!-- ========================================
-     説明会
-======================================== -->
 
-<div
-  id="companyPage"
-  class="page">
+<!-- 累計 -->
 
+<section id="playerTotalPage" class="hidden">
 
-  <div class="company-header">
+<h2>📊 累計成績</h2>
 
-    <div>
+<div id="playerTotal"></div>
 
-      <h1>
-        説明会・企業研究
-      </h1>
+</section>
 
-      <p>
-        説明会で得た情報を記録して、企業研究に活かそう。
-      </p>
 
-    </div>
+<!-- ランキング -->
 
+<section id="playerRankingPage" class="hidden">
 
-    <span
-      class="question-count"
-      id="companyCountPage">
+<h2>🏆 ランキング</h2>
 
-      0社
+<div id="playerRanking"></div>
 
-    </span>
-
-  </div>
-
-
-  <div class="company-layout">
-
-
-    <!-- ==================================
-         説明会登録
-    =================================== -->
-
-    <section class="card company-form">
-
-
-      <h2>
-        ＋ 説明会を追加
-      </h2>
-
-      <p class="description">
-        参加した説明会や企業の情報を記録できます。
-      </p>
-
-
-      <!-- 企業名 -->
-
-      <div class="form-group">
-
-        <label>
-          🏢 企業名
-        </label>
-
-        <input
-          id="companyName"
-          placeholder="例：株式会社〇〇">
-
-      </div>
-
-
-      <!-- 日付 -->
-
-      <div class="form-group">
-
-        <label>
-          📅 開催日
-        </label>
-
-        <input
-          type="date"
-          id="companyDate">
-
-      </div>
-
-
-      <!-- 時間 -->
-
-      <div class="form-group">
-
-        <label>
-          🕐 開催時間
-        </label>
-
-        <div class="time-select">
-
-          <select id="companyHour">
-
-            <option value="">
-              時
-            </option>
-
-          </select>
-
-          <span>:</span>
-
-          <select id="companyMinute">
-
-            <option value="">
-              分
-            </option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-
-      <!-- 開催形式 -->
-
-      <div class="form-group">
-
-        <label>
-          💻 開催形式
-        </label>
-
-        <select
-          id="companyFormat"
-          onchange="toggleCompanyLocation()">
-
-          <option value="オンライン">
-            💻 オンライン
-          </option>
-
-          <option value="対面">
-            🏢 対面
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <!-- 場所 -->
-
-      <div
-        class="form-group"
-        id="companyLocationGroup"
-        style="display:none;">
-
-        <label>
-          📍 場所
-        </label>
-
-        <input
-          id="companyLocation"
-          placeholder="例：東京都千代田区">
-
-      </div>
-
-
-      <!-- 興味度 -->
-
-      <div class="form-group">
-
-        <label>
-          ⭐ 興味度
-        </label>
-
-        <select id="companyInterest">
-
-          <option value="1">
-            ⭐
-          </option>
-
-          <option value="2">
-            ⭐⭐
-          </option>
-
-          <option value="3">
-            ⭐⭐⭐
-          </option>
-
-          <option value="4">
-            ⭐⭐⭐⭐
-          </option>
-
-          <option value="5">
-            ⭐⭐⭐⭐⭐
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <!-- 選考 -->
-
-      <div class="form-group">
-
-        <label>
-          🎯 選考に進みたい？
-        </label>
-
-        <select id="companySelection">
-
-          <option value="ぜひ進みたい">
-            🟢 ぜひ進みたい
-          </option>
-
-          <option value="検討する">
-            🟡 検討する
-          </option>
-
-          <option value="まだ分からない">
-            ⚪ まだ分からない
-          </option>
-
-          <option value="辞退">
-            🔴 辞退
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <!-- 印象 -->
-
-      <div class="form-group">
-
-        <label>
-          💡 印象に残ったこと
-        </label>
-
-        <textarea
-          id="companyImpression"
-          placeholder="説明会で印象に残ったこと"></textarea>
-
-      </div>
-
-
-      <!-- 質問 -->
-
-      <div class="form-group">
-
-        <label>
-          ❓ 気になったこと
-        </label>
-
-        <textarea
-          id="companyQuestion"
-          placeholder="聞けなかった質問など"></textarea>
-
-      </div>
-
-
-      <!-- 感想 -->
-
-      <div class="form-group">
-
-        <label>
-          📝 自分の感想
-        </label>
-
-        <textarea
-          id="companyMemo"
-          placeholder="説明会を受けて感じたこと"></textarea>
-
-      </div>
-
-
-      <button
-        class="add-button"
-        onclick="addCompany()">
-
-        ＋ 説明会を登録する
-
-      </button>
-
-
-    </section>
-
-
-    <!-- ==================================
-         企業一覧
-    =================================== -->
-
-    <section class="card company-list">
-
-
-      <div class="company-list-header">
-
-        <h2>
-          参加した説明会
-        </h2>
-
-
-        <select
-          class="company-filter"
-          id="companyFilter"
-          onchange="renderCompanies()">
-
-          <option value="all">
-            すべて表示
-          </option>
-
-          <option value="5">
-            ⭐⭐⭐⭐⭐
-          </option>
-
-          <option value="4">
-            ⭐⭐⭐⭐以上
-          </option>
-
-          <option value="3">
-            ⭐⭐⭐以上
-          </option>
-
-          <option value="進みたい">
-            選考に進みたい
-          </option>
-
-        </select>
-
-
-      </div>
-
-
-      <div id="companyList">
-
-      </div>
-
-
-    </section>
-
-
-  </div>
-
-
-</div>
-
+</section>
 
 </main>
 
+</div>
+</div>
+
+
+<!-- =====================================================
+管理者画面
+===================================================== -->
+
+<div id="adminApp" class="hidden">
+
+<header class="header">
+
+<b>⚾ 野球成績管理 - 管理者</b>
+
+<div>
+
+<span id="adminNameHeader"></span>
+
+<button class="btn gray" onclick="logout()">
+ログアウト
+</button>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+<div class="rank-tabs">
+
+<button
+class="rank-tab active"
+onclick="adminPage('games',this)">
+試合管理
+</button>
+
+<button
+class="rank-tab"
+onclick="adminPage('players',this)">
+選手管理
+</button>
+
+<button
+class="rank-tab"
+onclick="adminPage('stats',this)">
+累計成績
+</button>
+
+<button
+class="rank-tab"
+onclick="adminPage('ranking',this)">
+ランキング
+</button>
+
+</div>
+
+
+<!-- 試合管理 -->
+
+<section id="adminGamesPage">
+
+<div class="card">
+
+<h2>⚾ 試合登録</h2>
+
+<div class="grid">
+
+<div class="form">
+<label>日付</label>
+<input id="gameDate" type="date">
+</div>
+
+<div class="form">
+<label>試合名</label>
+<input id="gameName" placeholder="例：春季リーグ第1戦">
+</div>
+
+<div class="form">
+<label>対戦相手</label>
+<input id="gameOpponent" placeholder="例：○○大学">
+</div>
+
+<div class="form">
+<label>球場</label>
+<input id="gameStadium" placeholder="例：○○球場">
+</div>
+
+</div>
+
+<button class="btn blue" onclick="registerGame()">
+試合を登録
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>登録済み試合</h2>
+
+<div id="adminGames"></div>
+
+</div>
+
+</section>
+
+
+<!-- 選手管理 -->
+
+<section id="adminPlayersPage" class="hidden">
+
+<div class="card">
+
+<h2>👤 選手登録</h2>
+
+<div class="grid">
+
+<div class="form">
+
+<label>背番号</label>
+
+<input id="newNumber" placeholder="例：10">
+
+</div>
+
+<div class="form">
+
+<label>選手名</label>
+
+<input id="newName" placeholder="例：山田太郎">
+
+</div>
+
+</div>
+
+<button class="btn blue" onclick="registerPlayer()">
+選手を登録
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>登録選手</h2>
+
+<div id="adminPlayers"></div>
+
+</div>
+
+</section>
+
+
+<!-- 累計 -->
+
+<section id="adminStatsPage" class="hidden">
+
+<h2>📊 累計成績</h2>
+
+<div id="adminStats"></div>
+
+</section>
+
+
+<!-- ランキング -->
+
+<section id="adminRankingPage" class="hidden">
+
+<h2>🏆 ランキング</h2>
+
+<div id="adminRanking"></div>
+
+</section>
+
+</main>
 </div>
 
 
 <script>
 
+/* =====================================================
+データ
+===================================================== */
 
-/* ========================================
-   時間セレクト作成
-======================================== */
+const ADMIN_KEY="baseball_admin";
+const PLAYERS_KEY="baseball_players";
+const GAMES_KEY="baseball_games";
+const RECORDS_KEY="baseball_records";
 
-function createTimeOptions() {
+let admin=load(ADMIN_KEY);
 
+let players=load(PLAYERS_KEY);
 
-  const hours = [
-    "eventHour",
-    "companyHour"
-  ];
+let games=load(GAMES_KEY);
 
+let records=load(RECORDS_KEY);
 
-  const minutes = [
-    "eventMinute",
-    "companyMinute"
-  ];
+let currentPlayer=null;
 
+let selectedGame=null;
 
-  hours.forEach(id => {
+let pas=[];
 
-    const select =
-      document.getElementById(id);
-
-
-    for(let i=0;i<24;i++) {
-
-      const value =
-        String(i).padStart(2,"0");
+let rankingType="OPS";
 
 
-      select.innerHTML +=
-        `<option value="${value}">
-          ${value}
-        </option>`;
+function load(key){
 
-    }
+try{
 
-  });
+const x=localStorage.getItem(key);
 
+return x ? JSON.parse(x) : null;
 
-  minutes.forEach(id => {
+}catch(e){
 
-    const select =
-      document.getElementById(id);
+return null;
 
-
-    for(let i=0;i<60;i+=5) {
-
-      const value =
-        String(i).padStart(2,"0");
-
-
-      select.innerHTML +=
-        `<option value="${value}">
-          ${value}
-        </option>`;
-
-    }
-
-  });
+}
 
 }
 
 
-/* ========================================
-   ページ切り替え
-======================================== */
+function save(){
 
-function showPage(
-  pageId,
-  element
-) {
+localStorage.setItem(
+PLAYERS_KEY,
+JSON.stringify(players)
+);
 
+localStorage.setItem(
+GAMES_KEY,
+JSON.stringify(games)
+);
 
-  document
-    .querySelectorAll(".page")
-    .forEach(page => {
+localStorage.setItem(
+RECORDS_KEY,
+JSON.stringify(records)
+);
 
-      page.classList.remove(
-        "active"
-      );
+if(admin){
 
-    });
+localStorage.setItem(
+ADMIN_KEY,
+JSON.stringify(admin)
+);
 
-
-  document
-    .getElementById(pageId)
-    .classList.add(
-      "active"
-    );
-
-
-  document
-    .querySelectorAll(".menu-item")
-    .forEach(item => {
-
-      item.classList.remove(
-        "active"
-      );
-
-    });
-
-
-  element.classList.add(
-    "active"
-  );
-
-
-  if(pageId === "interviewPage") {
-
-    renderQuestions();
-
-  }
-
-
-  if(pageId === "companyPage") {
-
-    renderCompanies();
-
-  }
+}
 
 }
 
 
-/* ========================================
-   カレンダー
-======================================== */
-
-let currentDate =
-  new Date();
-
-
-let events = [];
-
-
-function renderCalendar() {
-
-
-  const calendar =
-    document.getElementById(
-      "calendar"
-    );
-
-
-  const title =
-    document.getElementById(
-      "monthTitle"
-    );
-
-
-  calendar.innerHTML = `
-
-    <div class="day-name">日</div>
-    <div class="day-name">月</div>
-    <div class="day-name">火</div>
-    <div class="day-name">水</div>
-    <div class="day-name">木</div>
-    <div class="day-name">金</div>
-    <div class="day-name">土</div>
-
-  `;
-
-
-  const year =
-    currentDate.getFullYear();
-
-
-  const month =
-    currentDate.getMonth();
-
-
-  title.textContent =
-    `${year}年 ${month+1}月`;
-
-
-  const firstDay =
-    new Date(
-      year,
-      month,
-      1
-    ).getDay();
-
-
-  const lastDate =
-    new Date(
-      year,
-      month+1,
-      0
-    ).getDate();
-
-
-  for(
-    let i=0;
-    i<firstDay;
-    i++
-  ) {
-
-    const empty =
-      document.createElement(
-        "div"
-      );
-
-    empty.className =
-      "day";
-
-    calendar.appendChild(
-      empty
-    );
-
-  }
-
-
-  for(
-    let date=1;
-    date<=lastDate;
-    date++
-  ) {
-
-
-    const day =
-      document.createElement(
-        "div"
-      );
-
-
-    day.className =
-      "day";
-
-
-    const dateElement =
-      document.createElement(
-        "div"
-      );
-
-
-    dateElement.className =
-      "date";
-
-
-    dateElement.textContent =
-      date;
-
-
-    day.appendChild(
-      dateElement
-    );
-
-
-    const today =
-      new Date();
-
-
-    if(
-      date === today.getDate() &&
-      month === today.getMonth() &&
-      year === today.getFullYear()
-    ) {
-
-      day.classList.add(
-        "today"
-      );
-
-    }
-
-
-    const dateString =
-      `${year}-${String(month+1).padStart(2,"0")}-${String(date).padStart(2,"0")}`;
-
-
-    events
-      .filter(
-        e =>
-          e.date === dateString
-      )
-      .forEach(
-        event => {
-
-
-          const element =
-            document.createElement(
-              "div"
-            );
-
-
-          element.className =
-            `event ${event.type}`;
-
-
-          element.innerHTML =
-            `${event.time}<br>${escapeHTML(event.title)}`;
-
-
-          day.appendChild(
-            element
-          );
-
-        }
-      );
-
-
-    day.onclick = () => {
-
-      document.getElementById(
-        "eventDate"
-      ).value =
-        dateString;
-
-    };
-
-
-    calendar.appendChild(
-      day
-    );
-
-  }
-
-
-  updateStats();
+function esc(x){
+
+return String(x??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-/* ========================================
-   月移動
-======================================== */
+function avg(x){
 
-function changeMonth(
-  amount
-) {
-
-  currentDate.setMonth(
-    currentDate.getMonth()+amount
-  );
-
-  renderCalendar();
+return x.toFixed(3).replace("0.",".");
 
 }
 
 
-/* ========================================
-   場所
-======================================== */
+function dateText(x){
 
-function toggleLocation() {
+if(!x)return "";
 
+const d=new Date(x+"T00:00:00");
 
-  const type =
-    document.getElementById(
-      "eventType"
-    ).value;
-
-
-  document.getElementById(
-    "locationGroup"
-  ).style.display =
-
-    type === "interview" ||
-    type === "company"
-
-      ? "block"
-      : "none";
+return d.getFullYear()+"/"+
+String(d.getMonth()+1).padStart(2,"0")+"/"+
+String(d.getDate()).padStart(2,"0");
 
 }
 
 
-function toggleCompanyLocation() {
+/* =====================================================
+起動
+===================================================== */
+
+function init(){
+
+if(!players)players=[];
+
+if(!games)games=[];
+
+if(!records)records=[];
+
+if(!admin){
+
+document.getElementById("setupPage")
+.classList.remove("hidden");
+
+}else{
+
+document.getElementById("loginPage")
+.classList.remove("hidden");
+
+}
+
+const d=new Date();
+
+document.getElementById("gameDate").value=
+d.getFullYear()+"-"+
+String(d.getMonth()+1).padStart(2,"0")+"-"+
+String(d.getDate()).padStart(2,"0");
+
+}
+
+init();
 
 
-  const format =
-    document.getElementById(
-      "companyFormat"
-    ).value;
+/* =====================================================
+初回管理者設定
+===================================================== */
 
+function createAdmin(){
 
-  document.getElementById(
-    "companyLocationGroup"
-  ).style.display =
+const name=
+document.getElementById("setupName").value.trim();
 
-    format === "対面"
-      ? "block"
-      : "none";
+const pass=
+document.getElementById("setupPassword").value;
+
+const pass2=
+document.getElementById("setupPassword2").value;
+
+if(!name){
+
+alert("管理者名を入力してください");
+
+return;
+
+}
+
+if(!pass){
+
+alert("パスワードを入力してください");
+
+return;
+
+}
+
+if(pass!==pass2){
+
+alert("パスワードが一致していません");
+
+return;
+
+}
+
+if(pass.length<4){
+
+alert("パスワードは4文字以上にしてください");
+
+return;
+
+}
+
+admin={
+name:name,
+password:pass
+};
+
+localStorage.setItem(
+ADMIN_KEY,
+JSON.stringify(admin)
+);
+
+alert("管理者アカウントを作成しました！");
+
+location.reload();
 
 }
 
 
-/* ========================================
-   イベント追加
-======================================== */
+/* =====================================================
+ログイン
+===================================================== */
 
-function addEvent() {
+function showAdminLogin(){
 
+document.getElementById("loginPage")
+.classList.add("hidden");
 
-  const date =
-    document.getElementById(
-      "eventDate"
-    ).value;
-
-
-  const hour =
-    document.getElementById(
-      "eventHour"
-    ).value;
-
-
-  const minute =
-    document.getElementById(
-      "eventMinute"
-    ).value;
-
-
-  const title =
-    document.getElementById(
-      "eventTitle"
-    ).value.trim();
-
-
-  const type =
-    document.getElementById(
-      "eventType"
-    ).value;
-
-
-  if(
-    !date ||
-    !hour ||
-    !minute ||
-    !title
-  ) {
-
-    alert(
-      "日付・時間・予定名を入力してください。"
-    );
-
-    return;
-
-  }
-
-
-  events.push({
-
-    date,
-
-    time:
-      `${hour}:${minute}`,
-
-    title,
-
-    type
-
-  });
-
-
-  document.getElementById(
-    "eventTitle"
-  ).value = "";
-
-
-  renderCalendar();
+document.getElementById("adminLoginPage")
+.classList.remove("hidden");
 
 }
 
 
-/* ========================================
-   統計
-======================================== */
+function backLogin(){
 
-function updateStats() {
+document.getElementById("adminLoginPage")
+.classList.add("hidden");
 
-
-  const year =
-    currentDate.getFullYear();
-
-
-  const month =
-    currentDate.getMonth();
-
-
-  const list =
-    events.filter(e => {
-
-      const d =
-        new Date(e.date);
-
-      return
-        d.getFullYear() === year &&
-        d.getMonth() === month;
-
-    });
-
-
-  document.getElementById(
-    "totalCount"
-  ).innerHTML =
-    `${list.length}<span>件</span>`;
-
-
-  document.getElementById(
-    "interviewCount"
-  ).innerHTML =
-    `${list.filter(e=>e.type==="interview").length}<span>件</span>`;
-
-
-  document.getElementById(
-    "companyCount"
-  ).innerHTML =
-    `${list.filter(e=>e.type==="company").length}<span>件</span>`;
-
-
-  document.getElementById(
-    "esCount"
-  ).innerHTML =
-    `${list.filter(e=>e.type==="es").length}<span>件</span>`;
+document.getElementById("loginPage")
+.classList.remove("hidden");
 
 }
 
 
-/* ========================================
-   面接質問
-======================================== */
+function adminLogin(){
 
-let questions = [];
+const name=
+document.getElementById("adminLoginName").value.trim();
 
+const pass=
+document.getElementById("adminLoginPassword").value;
 
-function addQuestion() {
+if(
+name!==admin.name ||
+pass!==admin.password
+){
 
+alert("管理者名またはパスワードが違います");
 
-  const category =
-    document.getElementById(
-      "questionCategory"
-    ).value;
+return;
 
+}
 
-  const question =
-    document.getElementById(
-      "questionText"
-    ).value.trim();
+document.getElementById("adminLoginPage")
+.classList.add("hidden");
 
+document.getElementById("adminApp")
+.classList.remove("hidden");
 
-  const answer =
-    document.getElementById(
-      "answerText"
-    ).value.trim();
+document.getElementById("adminNameHeader")
+.textContent=admin.name;
 
-
-  const memo =
-    document.getElementById(
-      "memoText"
-    ).value.trim();
-
-
-  if(
-    !question ||
-    !answer
-  ) {
-
-    alert(
-      "質問と回答を入力してください。"
-    );
-
-    return;
-
-  }
-
-
-  questions.push({
-
-    id: Date.now(),
-
-    category,
-
-    question,
-
-    answer,
-
-    memo
-
-  });
-
-
-  document.getElementById(
-    "questionText"
-  ).value = "";
-
-
-  document.getElementById(
-    "answerText"
-  ).value = "";
-
-
-  document.getElementById(
-    "memoText"
-  ).value = "";
-
-
-  renderQuestions();
+renderAdminGames();
 
 }
 
 
-function renderQuestions() {
+function playerLogin(){
 
+const name=
+document.getElementById("loginName").value.trim();
 
-  const list =
-    document.getElementById(
-      "questionList"
-    );
+const player=
+players.find(p=>p.name===name);
 
+if(!player){
 
-  document.getElementById(
-    "questionCount"
-  ).textContent =
-    `${questions.length}問`;
+alert("登録されている選手名を選択してください");
 
+return;
 
-  document.getElementById(
-    "questionCount2"
-  ).textContent =
-    `${questions.length}問`;
+}
 
+currentPlayer=player;
 
-  if(!questions.length) {
+document.getElementById("loginPage")
+.classList.add("hidden");
 
-    list.innerHTML = `
+document.getElementById("playerApp")
+.classList.remove("hidden");
 
-      <div class="empty">
+document.getElementById("playerNameHeader")
+.textContent=
+(player.number ? player.number+" " : "")+
+player.name;
 
-        <div class="empty-icon">
-          💼
-        </div>
-
-        <strong>
-          まだ質問がありません
-        </strong>
-
-        <span>
-          左側から質問を追加してください。
-        </span>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  list.innerHTML = "";
-
-
-  questions
-    .slice()
-    .reverse()
-    .forEach(q => {
-
-
-      const item =
-        document.createElement(
-          "div"
-        );
-
-
-      item.className =
-        "question-item";
-
-
-      item.innerHTML = `
-
-        <div class="question-top">
-
-          <span class="category">
-            ${escapeHTML(q.category)}
-          </span>
-
-          <div class="question-actions">
-
-            <button
-              class="action-button"
-              onclick="editQuestion(${q.id})">
-
-              編集
-
-            </button>
-
-            <button
-              class="action-button delete"
-              onclick="deleteQuestion(${q.id})">
-
-              削除
-
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div class="question-text">
-
-          Q.
-          ${escapeHTML(q.question)}
-
-        </div>
-
-
-        <div class="answer">
-
-          <strong>A.</strong>
-
-          ${escapeHTML(q.answer)}
-
-        </div>
-
-
-        ${
-          q.memo
-            ? `
-              <div class="memo">
-                📝 ${escapeHTML(q.memo)}
-              </div>
-            `
-            : ""
-        }
-
-      `;
-
-
-      list.appendChild(
-        item
-      );
-
-    });
+renderPlayerGames();
 
 }
 
 
-function deleteQuestion(id) {
+function logout(){
 
-
-  if(
-    !confirm(
-      "この質問を削除しますか？"
-    )
-  ) return;
-
-
-  questions =
-    questions.filter(
-      q => q.id !== id
-    );
-
-
-  renderQuestions();
+location.reload();
 
 }
 
 
-function editQuestion(id) {
+/* =====================================================
+選手名候補
+===================================================== */
+
+document.getElementById("loginName")
+.addEventListener("input",function(){
+
+const word=this.value.trim().toLowerCase();
+
+const box=document.getElementById("suggestions");
+
+if(!word){
+
+box.classList.add("hidden");
+
+return;
+
+}
+
+const result=
+players.filter(
+p=>p.name.toLowerCase().includes(word)
+);
+
+box.innerHTML=result.map(p=>`
+
+<div
+class="suggestion"
+onclick="choosePlayer('${esc(p.name)}')">
+
+${esc(p.number)}
+　${esc(p.name)}
+
+</div>
+
+`).join("");
+
+box.classList.toggle(
+"hidden",
+result.length===0
+);
+
+});
 
 
-  const q =
-    questions.find(
-      x => x.id === id
-    );
+function choosePlayer(name){
 
+document.getElementById("loginName").value=name;
 
-  if(!q) return;
-
-
-  document.getElementById(
-    "questionCategory"
-  ).value =
-    q.category;
-
-
-  document.getElementById(
-    "questionText"
-  ).value =
-    q.question;
-
-
-  document.getElementById(
-    "answerText"
-  ).value =
-    q.answer;
-
-
-  document.getElementById(
-    "memoText"
-  ).value =
-    q.memo;
-
-
-  questions =
-    questions.filter(
-      x => x.id !== id
-    );
-
-
-  renderQuestions();
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+document.getElementById("suggestions")
+.classList.add("hidden");
 
 }
 
 
-/* ========================================
-   説明会・企業
-======================================== */
+/* =====================================================
+管理者：選手登録
+===================================================== */
 
-let companies = [];
+function registerPlayer(){
 
+const number=
+document.getElementById("newNumber").value.trim();
 
-function addCompany() {
+const name=
+document.getElementById("newName").value.trim();
 
+if(!name){
 
-  const name =
-    document.getElementById(
-      "companyName"
-    ).value.trim();
+alert("選手名を入力してください");
 
+return;
 
-  const date =
-    document.getElementById(
-      "companyDate"
-    ).value;
+}
 
+if(players.some(p=>p.name===name)){
 
-  const hour =
-    document.getElementById(
-      "companyHour"
-    ).value;
+alert("その選手はすでに登録されています");
 
+return;
 
-  const minute =
-    document.getElementById(
-      "companyMinute"
-    ).value;
+}
 
+players.push({
 
-  const format =
-    document.getElementById(
-      "companyFormat"
-    ).value;
+id:
+"p_"+Date.now()+"_"+Math.random(),
 
+number:number,
 
-  const location =
-    document.getElementById(
-      "companyLocation"
-    ).value.trim();
+name:name
 
+});
 
-  const interest =
-    Number(
-      document.getElementById(
-        "companyInterest"
-      ).value
-    );
+save();
 
+document.getElementById("newNumber").value="";
 
-  const selection =
-    document.getElementById(
-      "companySelection"
-    ).value;
+document.getElementById("newName").value="";
 
+renderAdminPlayers();
 
-  const impression =
-    document.getElementById(
-      "companyImpression"
-    ).value.trim();
-
-
-  const question =
-    document.getElementById(
-      "companyQuestion"
-    ).value.trim();
-
-
-  const memo =
-    document.getElementById(
-      "companyMemo"
-    ).value.trim();
-
-
-  /*
-   * 入力チェック
-   */
-
-  if(
-    !name ||
-    !date ||
-    !hour ||
-    !minute
-  ) {
-
-    alert(
-      "企業名・開催日・開催時間を入力してください。"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    format === "対面" &&
-    !location
-  ) {
-
-    alert(
-      "対面の場合は場所を入力してください。"
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * 登録
-   */
-
-  companies.push({
-
-    id: Date.now(),
-
-    name,
-
-    date,
-
-    time:
-      `${hour}:${minute}`,
-
-    format,
-
-    location,
-
-    interest,
-
-    selection,
-
-    impression,
-
-    question,
-
-    memo
-
-  });
-
-
-  /*
-   * フォームクリア
-   */
-
-  document.getElementById(
-    "companyName"
-  ).value = "";
-
-
-  document.getElementById(
-    "companyLocation"
-  ).value = "";
-
-
-  document.getElementById(
-    "companyImpression"
-  ).value = "";
-
-
-  document.getElementById(
-    "companyQuestion"
-  ).value = "";
-
-
-  document.getElementById(
-    "companyMemo"
-  ).value = "";
-
-
-  renderCompanies();
-
-
-  alert(
-    "説明会を登録しました！"
-  );
+alert("選手を登録しました");
 
 }
 
 
-/* ========================================
-   企業一覧
-======================================== */
+function deletePlayer(id){
 
-function renderCompanies() {
+if(!confirm("この選手を削除しますか？"))return;
 
+players=players.filter(p=>p.id!==id);
 
-  const list =
-    document.getElementById(
-      "companyList"
-    );
+records=records.filter(r=>r.playerId!==id);
 
+save();
 
-  const filter =
-    document.getElementById(
-      "companyFilter"
-    ).value;
-
-
-  document.getElementById(
-    "companyCountPage"
-  ).textContent =
-    `${companies.length}社`;
-
-
-  let filtered =
-    [...companies];
-
-
-  /*
-   * フィルター
-   */
-
-  if(filter === "5") {
-
-    filtered =
-      filtered.filter(
-        c => c.interest === 5
-      );
-
-  }
-
-
-  if(filter === "4") {
-
-    filtered =
-      filtered.filter(
-        c => c.interest >= 4
-      );
-
-  }
-
-
-  if(filter === "3") {
-
-    filtered =
-      filtered.filter(
-        c => c.interest >= 3
-      );
-
-  }
-
-
-  if(filter === "進みたい") {
-
-    filtered =
-      filtered.filter(
-        c =>
-          c.selection ===
-          "ぜひ進みたい"
-      );
-
-  }
-
-
-  if(!filtered.length) {
-
-    list.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          🏢
-        </div>
-
-        <strong>
-          まだ説明会の記録がありません
-        </strong>
-
-        <span>
-          左側から参加した説明会を登録してみましょう。
-        </span>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  list.innerHTML = "";
-
-
-  /*
-   * 新しい順
-   */
-
-  filtered
-    .slice()
-    .reverse()
-    .forEach(company => {
-
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "company-card";
-
-
-      const stars =
-        "★".repeat(
-          company.interest
-        )
-        +
-        "☆".repeat(
-          5-company.interest
-        );
-
-
-      let selectionClass =
-        "orange";
-
-
-      if(
-        company.selection ===
-        "ぜひ進みたい"
-      ) {
-
-        selectionClass =
-          "green";
-
-      }
-
-
-      card.innerHTML = `
-
-        <div class="company-card-top">
-
-          <div>
-
-            <div class="company-name">
-
-              🏢
-              ${escapeHTML(
-                company.name
-              )}
-
-            </div>
-
-            <div class="company-date">
-
-              📅
-              ${formatDate(
-                company.date
-              )}
-
-             　
-
-              🕐
-              ${company.time}
-
-            </div>
-
-          </div>
-
-
-          <div class="stars">
-
-            ${stars}
-
-          </div>
-
-        </div>
-
-
-        <div class="company-info">
-
-          <span class="info-tag">
-
-            ${
-              company.format ===
-              "オンライン"
-                ? "💻 オンライン"
-                : "🏢 対面"
-            }
-
-          </span>
-
-
-          ${
-            company.location
-              ?
-              `
-              <span class="info-tag">
-                📍
-                ${escapeHTML(
-                  company.location
-                )}
-              </span>
-              `
-              :
-              ""
-          }
-
-
-          <span
-            class="info-tag ${selectionClass}">
-
-            🎯
-            ${escapeHTML(
-              company.selection
-            )}
-
-          </span>
-
-        </div>
-
-
-        ${
-          company.impression
-            ?
-            `
-            <div class="company-section">
-
-              <div class="company-section-title">
-                💡 印象に残ったこと
-              </div>
-
-              <div class="company-section-text">
-                ${escapeHTML(
-                  company.impression
-                )}
-              </div>
-
-            </div>
-            `
-            :
-            ""
-        }
-
-
-        ${
-          company.question
-            ?
-            `
-            <div class="company-section">
-
-              <div class="company-section-title">
-                ❓ 気になったこと
-              </div>
-
-              <div class="company-section-text">
-                ${escapeHTML(
-                  company.question
-                )}
-              </div>
-
-            </div>
-            `
-            :
-            ""
-        }
-
-
-        ${
-          company.memo
-            ?
-            `
-            <div class="company-section">
-
-              <div class="company-section-title">
-                📝 自分の感想
-              </div>
-
-              <div class="company-section-text">
-                ${escapeHTML(
-                  company.memo
-                )}
-              </div>
-
-            </div>
-            `
-            :
-            ""
-        }
-
-
-        <div class="company-actions">
-
-          <button
-            class="action-button"
-            onclick="editCompany(${company.id})">
-
-            編集
-
-          </button>
-
-
-          <button
-            class="action-button delete"
-            onclick="deleteCompany(${company.id})">
-
-            削除
-
-          </button>
-
-        </div>
-
-      `;
-
-
-      list.appendChild(
-        card
-      );
-
-    });
+renderAdminPlayers();
 
 }
 
 
-/* ========================================
-   企業削除
-======================================== */
+function renderAdminPlayers(){
 
-function deleteCompany(id) {
+const box=document.getElementById("adminPlayers");
 
+if(!players.length){
 
-  if(
-    !confirm(
-      "この説明会の記録を削除しますか？"
-    )
-  ) return;
+box.innerHTML="<p>まだ選手が登録されていません。</p>";
 
+return;
 
-  companies =
-    companies.filter(
-      c => c.id !== id
-    );
+}
 
+box.innerHTML=`
 
-  renderCompanies();
+<div class="table-wrap">
+
+<table>
+
+<tr>
+<th>背番号</th>
+<th>選手名</th>
+<th>操作</th>
+</tr>
+
+${players.map(p=>`
+
+<tr>
+
+<td>${esc(p.number)}</td>
+
+<td><b>${esc(p.name)}</b></td>
+
+<td>
+
+<button
+class="btn red"
+onclick="deletePlayer('${p.id}')">
+削除
+</button>
+
+</td>
+
+</tr>
+
+`).join("")}
+
+</table>
+
+</div>
+
+`;
 
 }
 
 
-/* ========================================
-   企業編集
-======================================== */
+/* =====================================================
+管理者：試合登録
+===================================================== */
 
-function editCompany(id) {
+function registerGame(){
 
+const date=
+document.getElementById("gameDate").value;
 
-  const company =
-    companies.find(
-      c => c.id === id
-    );
+const name=
+document.getElementById("gameName").value.trim();
 
+const opponent=
+document.getElementById("gameOpponent").value.trim();
 
-  if(!company) return;
+const stadium=
+document.getElementById("gameStadium").value.trim();
 
+if(!date||!name||!opponent){
 
-  document.getElementById(
-    "companyName"
-  ).value =
-    company.name;
+alert("日付・試合名・対戦相手を入力してください");
 
+return;
 
-  document.getElementById(
-    "companyDate"
-  ).value =
-    company.date;
+}
 
+games.push({
 
-  document.getElementById(
-    "companyHour"
-  ).value =
-    company.time.split(":")[0];
+id:
+"g_"+Date.now()+"_"+Math.random(),
 
+date:date,
 
-  document.getElementById(
-    "companyMinute"
-  ).value =
-    company.time.split(":")[1];
+name:name,
 
+opponent:opponent,
 
-  document.getElementById(
-    "companyFormat"
-  ).value =
-    company.format;
+stadium:stadium
 
+});
 
-  toggleCompanyLocation();
+save();
 
+document.getElementById("gameName").value="";
 
-  document.getElementById(
-    "companyLocation"
-  ).value =
-    company.location;
+document.getElementById("gameOpponent").value="";
 
+document.getElementById("gameStadium").value="";
 
-  document.getElementById(
-    "companyInterest"
-  ).value =
-    company.interest;
+renderAdminGames();
 
-
-  document.getElementById(
-    "companySelection"
-  ).value =
-    company.selection;
-
-
-  document.getElementById(
-    "companyImpression"
-  ).value =
-    company.impression;
-
-
-  document.getElementById(
-    "companyQuestion"
-  ).value =
-    company.question;
-
-
-  document.getElementById(
-    "companyMemo"
-  ).value =
-    company.memo;
-
-
-  companies =
-    companies.filter(
-      c => c.id !== id
-    );
-
-
-  renderCompanies();
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+alert("試合を登録しました！\n選手側にも表示されます。");
 
 }
 
 
-/* ========================================
-   日付表示
-======================================== */
+function deleteGame(id){
 
-function formatDate(date) {
+if(!confirm(
+"この試合を削除しますか？\n入力された成績も削除されます。"
+))return;
 
+games=games.filter(g=>g.id!==id);
 
-  const parts =
-    date.split("-");
+records=records.filter(r=>r.gameId!==id);
 
+save();
 
-  return `${parts[0]}年${Number(parts[1])}月${Number(parts[2])}日`;
-
-}
-
-
-/* ========================================
-   HTMLエスケープ
-======================================== */
-
-function escapeHTML(text) {
-
-  return String(text)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+renderAdminGames();
 
 }
 
 
-/* ========================================
-   初期化
-======================================== */
+function renderAdminGames(){
 
-createTimeOptions();
+const box=document.getElementById("adminGames");
 
-renderCalendar();
+const list=
+[...games].sort(
+(a,b)=>b.date.localeCompare(a.date)
+);
 
-renderQuestions();
+if(!list.length){
 
-renderCompanies();
+box.innerHTML="<p>試合が登録されていません。</p>";
+
+return;
+
+}
+
+box.innerHTML=list.map(g=>`
+
+<div class="game">
+
+<div class="game-info">
+
+<b>
+${dateText(g.date)}
+　
+${esc(g.name)}
+</b>
+
+<small>
+vs ${esc(g.opponent)}
+${g.stadium ? " / "+esc(g.stadium):""}
+</small>
+
+</div>
+
+<button
+class="btn red"
+onclick="deleteGame('${g.id}')">
+削除
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =====================================================
+選手：試合一覧
+===================================================== */
+
+function renderPlayerGames(){
+
+const box=document.getElementById("playerGames");
+
+const list=
+[...games].sort(
+(a,b)=>b.date.localeCompare(a.date)
+);
+
+if(!list.length){
+
+box.innerHTML=
+"<p>現在入力できる試合がありません。</p>";
+
+return;
+
+}
+
+box.innerHTML=list.map(g=>{
+
+const exists=
+records.some(
+r=>
+r.playerId===currentPlayer.id &&
+r.gameId===g.id
+);
+
+return`
+
+<div class="game">
+
+<div class="game-info">
+
+<b>
+${dateText(g.date)}
+　
+${esc(g.name)}
+</b>
+
+<small>
+vs ${esc(g.opponent)}
+${g.stadium ? " / "+esc(g.stadium):""}
+</small>
+
+${exists
+?`<small style="color:#0866d6;font-weight:bold">
+✓ 入力済み
+</small>`
+:""}
+
+</div>
+
+<button
+class="btn blue"
+onclick="selectGame('${g.id}')">
+
+${exists?"修正":"成績入力"}
+
+</button>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+/* =====================================================
+選手：試合選択
+===================================================== */
+
+function selectGame(id){
+
+selectedGame=
+games.find(g=>g.id===id);
+
+const old=
+records.find(
+r=>
+r.playerId===currentPlayer.id &&
+r.gameId===id
+);
+
+pas=old
+?JSON.parse(JSON.stringify(old.pas))
+:[];
+
+if(!pas.length)addPA();
+
+document.getElementById("inputCard")
+.classList.remove("hidden");
+
+document.getElementById("selectedGameTitle")
+.textContent=
+dateText(selectedGame.date)+
+"　"+
+selectedGame.name+
+"　vs "+
+selectedGame.opponent;
+
+renderPAs();
+
+}
+
+
+/* =====================================================
+打席
+===================================================== */
+
+const positions=[
+"",
+"投","捕","一","二","三","遊","左","中","右"
+];
+
+const results=[
+"",
+"ゴロ",
+"飛",
+"直",
+"邪飛",
+"失",
+"野選",
+"安",
+"二",
+"三",
+"本",
+"犠打",
+"犠飛",
+"三振",
+"振り逃げ",
+"四球",
+"死球",
+"併殺"
+];
+
+
+function addPA(){
+
+pas.push({
+
+position:"",
+result:"",
+scoring:false,
+rbi:0,
+run:0,
+steal:0
+
+});
+
+renderPAs();
+
+}
+
+
+function deletePA(i){
+
+pas.splice(i,1);
+
+renderPAs();
+
+}
+
+
+function updatePA(i,key,value){
+
+if(
+key==="rbi"||
+key==="run"||
+key==="steal"
+){
+
+value=Math.max(
+0,
+Number(value)||0
+);
+
+}
+
+if(key==="scoring"){
+
+value=value==="true";
+
+}
+
+pas[i][key]=value;
+
+renderPAs();
+
+}
+
+
+function renderPAs(){
+
+const box=
+document.getElementById("plateAppearances");
+
+box.innerHTML=pas.map((p,i)=>`
+
+<div class="pa">
+
+<div class="pa-title">
+
+<span>${i+1}打席目</span>
+
+<button
+class="btn red"
+onclick="deletePA(${i})">
+削除
+</button>
+
+</div>
+
+<div class="pa-grid">
+
+<div>
+
+<label>守備位置</label>
+
+<select
+onchange="updatePA(${i},'position',this.value)">
+
+${positions.map(x=>`
+
+<option
+value="${x}"
+${p.position===x?"selected":""}>
+${x||"－"}
+</option>
+
+`).join("")}
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>結果</label>
+
+<select
+onchange="updatePA(${i},'result',this.value)">
+
+${results.map(x=>`
+
+<option
+value="${x}"
+${p.result===x?"selected":""}>
+${x||"－"}
+</option>
+
+`).join("")}
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>得点圏</label>
+
+<select
+onchange="updatePA(${i},'scoring',this.value)">
+
+<option
+value="false"
+${!p.scoring?"selected":""}>
+－
+</option>
+
+<option
+value="true"
+${p.scoring?"selected":""}>
+得点圏
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>打点</label>
+
+<input
+type="number"
+min="0"
+value="${p.rbi||0}"
+onchange="updatePA(${i},'rbi',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>得点</label>
+
+<input
+type="number"
+min="0"
+value="${p.run||0}"
+onchange="updatePA(${i},'run',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>盗塁</label>
+
+<input
+type="number"
+min="0"
+value="${p.steal||0}"
+onchange="updatePA(${i},'steal',this.value)"
+>
+
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+renderToday();
+
+}
+
+
+/* =====================================================
+計算
+===================================================== */
+
+function atBat(result){
+
+return[
+"ゴロ",
+"飛",
+"直",
+"邪飛",
+"失",
+"野選",
+"安",
+"二",
+"三",
+"本",
+"三振",
+"振り逃げ",
+"併殺"
+].includes(result);
+
+}
+
+
+function hit(result){
+
+return[
+"安",
+"二",
+"三",
+"本"
+].includes(result);
+
+}
+
+
+function bases(result){
+
+if(result==="安")return 1;
+
+if(result==="二")return 2;
+
+if(result==="三")return 3;
+
+if(result==="本")return 4;
+
+return 0;
+
+}
+
+
+function calculate(playerId){
+
+const rs=
+records.filter(
+r=>r.playerId===playerId
+);
+
+const all=
+rs.flatMap(r=>r.pas||[]);
+
+const PA=
+all.filter(
+p=>
+p.result &&
+p.result!=="犠打" &&
+p.result!=="犠飛"
+).length;
+
+const AB=
+all.filter(
+p=>atBat(p.result)
+).length;
+
+const H=
+all.filter(
+p=>hit(p.result)
+).length;
+
+const BB=
+all.filter(
+p=>
+p.result==="四球"||
+p.result==="死球"
+).length;
+
+const TB=
+all.reduce(
+(a,p)=>a+bases(p.result),0
+);
+
+const HR=
+all.filter(
+p=>p.result==="本"
+).length;
+
+const doubles=
+all.filter(
+p=>p.result==="二"
+).length;
+
+const triples=
+all.filter(
+p=>p.result==="三"
+).length;
+
+const RBI=
+all.reduce(
+(a,p)=>a+Number(p.rbi||0),0
+);
+
+const R=
+all.reduce(
+(a,p)=>a+Number(p.run||0),0
+);
+
+const SB=
+all.reduce(
+(a,p)=>a+Number(p.steal||0),0
+);
+
+const SO=
+all.filter(
+p=>
+p.result==="三振"||
+p.result==="振り逃げ"
+).length;
+
+const SF=
+all.filter(
+p=>p.result==="犠飛"
+).length;
+
+const AVG=
+AB?H/AB:0;
+
+const OBP=
+(AB+BB+SF)
+?(H+BB)/(AB+BB+SF)
+:0;
+
+const SLG=
+AB?TB/AB:0;
+
+const OPS=OBP+SLG;
+
+
+/* 得点圏 */
+
+const scoring=
+all.filter(
+p=>p.scoring&&p.result
+);
+
+const scoringAB=
+scoring.filter(
+p=>atBat(p.result)
+).length;
+
+const scoringH=
+scoring.filter(
+p=>hit(p.result)
+).length;
+
+const scoringAVG=
+scoringAB
+?scoringH/scoringAB
+:0;
+
+return{
+
+G:rs.length,
+PA,
+AB,
+H,
+doubles,
+triples,
+HR,
+BB,
+SO,
+RBI,
+R,
+SB,
+AVG,
+OBP,
+SLG,
+OPS,
+scoringAVG
+
+};
+
+}
+
+
+/* =====================================================
+今日の成績
+===================================================== */
+
+function renderToday(){
+
+const box=
+document.getElementById("todayPreview");
+
+let PA=0;
+let AB=0;
+let H=0;
+let BB=0;
+let RBI=0;
+let R=0;
+let SB=0;
+
+const rows=pas.map((p,i)=>{
+
+if(
+p.result &&
+p.result!=="犠打" &&
+p.result!=="犠飛"
+)PA++;
+
+if(atBat(p.result))AB++;
+
+if(hit(p.result))H++;
+
+if(
+p.result==="四球"||
+p.result==="死球"
+)BB++;
+
+RBI+=Number(p.rbi||0);
+
+R+=Number(p.run||0);
+
+SB+=Number(p.steal||0);
+
+let result=p.result||"－";
+
+if(p.position&&p.result){
+
+result=p.position+p.result;
+
+}
+
+return`
+
+<div class="preview-row">
+
+<div>${i+1}打席目</div>
+
+<div>
+<b>${esc(result)}</b>
+${p.scoring?" 🎯":""}
+</div>
+
+<div>打点${p.rbi||0}</div>
+
+<div>得点${p.run||0}</div>
+
+<div>盗塁${p.steal||0}</div>
+
+</div>
+
+`;
+
+}).join("");
+
+
+box.innerHTML=`
+
+<div class="preview">
+
+<div class="preview-title">
+📋 この日の成績
+</div>
+
+${rows}
+
+<div class="total">
+
+<span>累計</span>
+<span>${PA}打席</span>
+<span>${AB}打数</span>
+<span>${H}安打</span>
+<span>四死球${BB}</span>
+<span>打点${RBI}</span>
+<span>得点${R}</span>
+<span>盗塁${SB}</span>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+保存
+===================================================== */
+
+function saveRecord(){
+
+if(!selectedGame){
+
+alert("試合を選択してください");
+
+return;
+
+}
+
+if(!pas.some(p=>p.result)){
+
+alert("少なくとも1打席入力してください");
+
+return;
+
+}
+
+const index=
+records.findIndex(
+r=>
+r.playerId===currentPlayer.id &&
+r.gameId===selectedGame.id
+);
+
+const data={
+
+id:
+index>=0
+?records[index].id
+:"r_"+Date.now(),
+
+playerId:currentPlayer.id,
+
+gameId:selectedGame.id,
+
+pas:JSON.parse(JSON.stringify(pas))
+
+};
+
+if(index>=0){
+
+records[index]=data;
+
+}else{
+
+records.push(data);
+
+}
+
+save();
+
+renderPlayerGames();
+
+alert("成績を保存しました！");
+
+}
+
+
+/* =====================================================
+ページ切り替え
+===================================================== */
+
+function playerPage(page,button){
+
+document.getElementById("playerInputPage")
+.classList.add("hidden");
+
+document.getElementById("playerTotalPage")
+.classList.add("hidden");
+
+document.getElementById("playerRankingPage")
+.classList.add("hidden");
+
+document.querySelectorAll(".side-btn")
+.forEach(x=>x.classList.remove("active"));
+
+button.classList.add("active");
+
+if(page==="input"){
+
+document.getElementById("playerInputPage")
+.classList.remove("hidden");
+
+renderPlayerGames();
+
+}
+
+if(page==="total"){
+
+document.getElementById("playerTotalPage")
+.classList.remove("hidden");
+
+renderPlayerTotal();
+
+}
+
+if(page==="ranking"){
+
+document.getElementById("playerRankingPage")
+.classList.remove("hidden");
+
+renderPlayerRanking();
+
+}
+
+}
+
+
+/* =====================================================
+累計テーブル
+===================================================== */
+
+function statsTable(list){
+
+return`
+
+<div class="table-wrap">
+
+<table>
+
+<tr>
+
+<th>選手</th>
+<th>試合</th>
+<th>打席</th>
+<th>打数</th>
+<th>安打</th>
+<th>二塁打</th>
+<th>三塁打</th>
+<th>本塁打</th>
+<th>打点</th>
+<th>得点</th>
+<th>盗塁</th>
+<th>四死球</th>
+<th>三振</th>
+<th>打率</th>
+<th>出塁率</th>
+<th>長打率</th>
+<th>OPS</th>
+<th>得点圏打率</th>
+
+</tr>
+
+${list.map(x=>{
+
+const s=x.stats;
+
+return`
+
+<tr>
+
+<td>
+<b>
+${esc(x.player.number)}
+　
+${esc(x.player.name)}
+</b>
+</td>
+
+<td>${s.G}</td>
+<td>${s.PA}</td>
+<td>${s.AB}</td>
+<td>${s.H}</td>
+<td>${s.doubles}</td>
+<td>${s.triples}</td>
+<td>${s.HR}</td>
+<td>${s.RBI}</td>
+<td>${s.R}</td>
+<td>${s.SB}</td>
+<td>${s.BB}</td>
+<td>${s.SO}</td>
+
+<td>${avg(s.AVG)}</td>
+
+<td>${avg(s.OBP)}</td>
+
+<td>${avg(s.SLG)}</td>
+
+<td><b>${avg(s.OPS)}</b></td>
+
+<td>${avg(s.scoringAVG)}</td>
+
+</tr>
+
+`;
+
+}).join("")}
+
+</table>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+選手累計
+===================================================== */
+
+function renderPlayerTotal(){
+
+const s=calculate(currentPlayer.id);
+
+const arr=[
+
+["試合",s.G],
+["打席",s.PA],
+["打数",s.AB],
+["安打",s.H],
+["打率",avg(s.AVG)],
+["出塁率",avg(s.OBP)],
+["長打率",avg(s.SLG)],
+["OPS",avg(s.OPS)],
+["本塁打",s.HR],
+["打点",s.RBI],
+["得点",s.R],
+["盗塁",s.SB],
+["四死球",s.BB],
+["三振",s.SO],
+["得点圏打率",avg(s.scoringAVG)]
+
+];
+
+document.getElementById("playerTotal").innerHTML=`
+
+<div class="stat-grid">
+
+${arr.map(x=>`
+
+<div class="stat">
+
+<div class="stat-name">${x[0]}</div>
+
+<div class="stat-value">${x[1]}</div>
+
+</div>
+
+`).join("")}
+
+</div>
+
+<div class="card" style="margin-top:20px">
+
+${statsTable([
+{
+player:currentPlayer,
+stats:s
+}
+])}
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+ランキング
+===================================================== */
+
+const rankingTypes=[
+"打率",
+"OPS",
+"安打",
+"本塁打",
+"打点",
+"盗塁",
+"得点圏打率"
+];
+
+
+function rankKey(type){
+
+return{
+
+"打率":"AVG",
+"OPS":"OPS",
+"安打":"H",
+"本塁打":"HR",
+"打点":"RBI",
+"盗塁":"SB",
+"得点圏打率":"scoringAVG"
+
+}[type];
+
+}
+
+
+function rankingHTML(){
+
+const key=rankKey(rankingType);
+
+const list=
+players.map(p=>({
+
+player:p,
+stats:calculate(p.id)
+
+}))
+.sort(
+(a,b)=>b.stats[key]-a.stats[key]
+);
+
+return`
+
+<div class="rank-tabs">
+
+${rankingTypes.map(x=>`
+
+<button
+class="rank-tab ${rankingType===x?"active":""}"
+onclick="rankingType='${x}';refreshRanking()">
+
+${x}
+
+</button>
+
+`).join("")}
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🏆 ${rankingType}ランキング
+</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<tr>
+
+<th>順位</th>
+<th>選手</th>
+<th>${rankingType}</th>
+<th>試合</th>
+<th>打席</th>
+<th>打数</th>
+<th>安打</th>
+<th>本塁打</th>
+<th>打点</th>
+<th>盗塁</th>
+
+</tr>
+
+${list.map((x,i)=>{
+
+const s=x.stats;
+
+let value=s[key];
+
+if(
+rankingType==="打率"||
+rankingType==="OPS"||
+rankingType==="得点圏打率"
+){
+
+value=avg(value);
+
+}
+
+let rank=
+i+1;
+
+if(i===0)rank="🥇";
+if(i===1)rank="🥈";
+if(i===2)rank="🥉";
+
+return`
+
+<tr>
+
+<td>${rank}</td>
+
+<td>
+
+<b>
+${esc(x.player.number)}
+　
+${esc(x.player.name)}
+</b>
+
+</td>
+
+<td><b>${value}</b></td>
+
+<td>${s.G}</td>
+<td>${s.PA}</td>
+<td>${s.AB}</td>
+<td>${s.H}</td>
+<td>${s.HR}</td>
+<td>${s.RBI}</td>
+<td>${s.SB}</td>
+
+</tr>
+
+`;
+
+}).join("")}
+
+</table>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function renderPlayerRanking(){
+
+document.getElementById("playerRanking")
+.innerHTML=rankingHTML();
+
+}
+
+
+function renderAdminRanking(){
+
+document.getElementById("adminRanking")
+.innerHTML=rankingHTML();
+
+}
+
+
+function refreshRanking(){
+
+renderPlayerRanking();
+
+renderAdminRanking();
+
+}
+
+
+/* =====================================================
+管理者ページ
+===================================================== */
+
+function adminPage(page,button){
+
+document.getElementById("adminGamesPage")
+.classList.add("hidden");
+
+document.getElementById("adminPlayersPage")
+.classList.add("hidden");
+
+document.getElementById("adminStatsPage")
+.classList.add("hidden");
+
+document.getElementById("adminRankingPage")
+.classList.add("hidden");
+
+document.querySelectorAll(".rank-tab")
+.forEach(x=>x.classList.remove("active"));
+
+button.classList.add("active");
+
+if(page==="games"){
+
+document.getElementById("adminGamesPage")
+.classList.remove("hidden");
+
+renderAdminGames();
+
+}
+
+if(page==="players"){
+
+document.getElementById("adminPlayersPage")
+.classList.remove("hidden");
+
+renderAdminPlayers();
+
+}
+
+if(page==="stats"){
+
+document.getElementById("adminStatsPage")
+.classList.remove("hidden");
+
+renderAdminStats();
+
+}
+
+if(page==="ranking"){
+
+document.getElementById("adminRankingPage")
+.classList.remove("hidden");
+
+renderAdminRanking();
+
+}
+
+}
+
+
+function renderAdminStats(){
+
+const list=
+players.map(p=>({
+
+player:p,
+stats:calculate(p.id)
+
+}));
+
+document.getElementById("adminStats").innerHTML=`
+
+<div class="card">
+
+${statsTable(list)}
+
+</div>
+
+`;
+
+}
 
 </script>
 
-
 </body>
-
 </html>
