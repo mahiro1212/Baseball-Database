@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>シンプルなWebサイト</title>
+  <title>成績管理</title>
 
   <style>
     /* ページ全体 */
@@ -47,9 +47,24 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    h2 {
+    section h2 {
       margin-top: 0;
       color: #cc0000;
+    }
+
+    section p {
+      color: #cc0000;
+      line-height: 1.8;
+    }
+
+    /* 画像 */
+    section img {
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      margin: 20px auto 0;
+      border-radius: 8px;
     }
 
     /* footer */
@@ -66,6 +81,7 @@
 
     footer p {
       margin: 0 0 8px;
+      color: white;
     }
 
     footer a {
@@ -87,6 +103,7 @@
   </header>
 
   <main>
+
     <section>
       <h2>総合成績</h2>
       <p>
@@ -96,13 +113,21 @@
 
     <section>
       <h2>ランキング</h2>
-      <p>ここでは選手間のランキングを見ることができます。</p>
-      <img src="https://github.com/mahiro1212/Baseball-Database/blob/main/cupcake.jpg?raw=true" alt="サンプル">
+      <p>
+        ここでは選手間のランキングを見ることができます。
+      </p>
+
+      <img
+        src="https://raw.githubusercontent.com/mahiro1212/Baseball-Database/main/cupcake.jpg"
+        alt="ランキングのイメージ"
+      >
     </section>
+
   </main>
 
   <footer>
     <p>お問い合わせ：info@example.com</p>
+
     <div>
       <a href="#">X</a>
       <a href="#">Instagram</a>
