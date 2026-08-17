@@ -1,139 +1,4058 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>成績管理</title>
 
-  <style>
-    /* ページ全体 */
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
 
-    body {
-      margin: 0;
-      padding-bottom: 100px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background-color: #f5f5f5;
-    }
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    /* header */
-    header {
-      padding: 30px 20px;
-      text-align: center;
-      color: white;
-      background-color: #440000;
-    }
+<title>SHUKATSU | 就活管理</title>
 
-    header h1 {
-      margin: 0;
-    }
 
-    /* main */
-    main {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-      color: #cc0000;
-    }
+<style>
 
-    section {
-      margin-bottom: 40px;
-      padding: 25px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+/* ========================================
+   基本
+======================================== */
 
-    section h2 {
-      margin-top: 0;
-      color: #cc0000;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    section p {
-      color: #cc0000;
-      line-height: 1.8;
-    }
+:root {
 
-    /* 画像 */
-    section img {
-      display: block;
-      width: 100%;
-      max-width: 500px;
-      height: auto;
-      margin: 20px auto 0;
-      border-radius: 8px;
-    }
+  --navy: #0f172a;
+  --navy2: #172554;
 
-    /* footer */
-    footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 15px;
-      text-align: center;
-      color: white;
-      background-color: #440000;
-    }
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
 
-    footer p {
-      margin: 0 0 8px;
-      color: white;
-    }
+  --red: #ef4444;
+  --red-light: #fee2e2;
 
-    footer a {
-      margin: 0 8px;
-      color: white;
-      text-decoration: none;
-    }
+  --green: #10b981;
+  --green-light: #d1fae5;
 
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+
+  --orange: #f59e0b;
+  --orange-light: #fef3c7;
+
+  --bg: #eef2f7;
+
+  --text: #1e293b;
+  --sub: #64748b;
+
+  --border: #e2e8f0;
+
+  --white: #ffffff;
+}
+
+
+body {
+
+  margin: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans JP",
+    sans-serif;
+
+  background:
+
+    radial-gradient(
+      circle at top right,
+      #dbeafe 0,
+      transparent 30%
+    ),
+
+    var(--bg);
+
+  color: var(--text);
+}
+
+
+/* ========================================
+   アプリ全体
+======================================== */
+
+.app {
+
+  display: flex;
+
+  min-height: 100vh;
+
+}
+
+
+/* ========================================
+   サイドバー
+======================================== */
+
+.sidebar {
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 250px;
+  height: 100vh;
+
+  padding: 30px 20px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      #0f172a,
+      #172554
+    );
+
+  box-shadow:
+    5px 0 25px
+    rgba(15,23,42,.15);
+
+  z-index: 100;
+
+}
+
+
+.logo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 45px;
+
+}
+
+
+.logo-icon {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3b82f6,
+      #6366f1
+    );
+
+  font-size: 21px;
+
+}
+
+
+.logo-text strong {
+
+  display: block;
+
+  font-size: 18px;
+
+  letter-spacing: 1px;
+
+}
+
+
+.logo-text span {
+
+  display: block;
+
+  margin-top: 2px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  letter-spacing: 1px;
+
+}
+
+
+.menu-title {
+
+  margin:
+    0 0 10px 10px;
+
+  color: #64748b;
+
+  font-size: 10px;
+
+  font-weight: bold;
+
+  letter-spacing: 1.5px;
+
+}
+
+
+.menu {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+}
+
+
+.menu-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 13px 14px;
+
+  border-radius: 10px;
+
+  color: #cbd5e1;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition: .2s;
+
+}
+
+
+.menu-item:hover,
+.menu-item.active {
+
+  background:
+    rgba(255,255,255,.1);
+
+  color: white;
+
+}
+
+
+.menu-item.active {
+
+  box-shadow:
+    inset 3px 0 0 #60a5fa;
+
+}
+
+
+.menu-icon {
+
+  width: 22px;
+
+  text-align: center;
+
+  font-size: 17px;
+
+}
+
+
+.sidebar-bottom {
+
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+  bottom: 25px;
+
+  padding: 15px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,.05);
+
+}
+
+
+.sidebar-bottom p {
+
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+
+}
+
+
+.sidebar-bottom strong {
+
+  display: block;
+
+  margin-top: 4px;
+
+  font-size: 13px;
+
+}
+
+
+/* ========================================
+   メイン
+======================================== */
+
+.main {
+
+  width: calc(100% - 250px);
+
+  margin-left: 250px;
+
+  padding: 35px 45px 60px;
+
+}
+
+
+.page {
+
+  display: none;
+
+}
+
+
+.page.active {
+
+  display: block;
+
+}
+
+
+/* ========================================
+   共通
+======================================== */
+
+.topbar,
+.interview-header,
+.company-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 30px;
+
+}
+
+
+.topbar h1,
+.interview-header h1,
+.company-header h1 {
+
+  margin: 0;
+
+  color: var(--navy);
+
+  font-size: 28px;
+
+}
+
+
+.topbar p,
+.interview-header p,
+.company-header p {
+
+  margin:
+    5px 0 0;
+
+  color: var(--sub);
+
+  font-size: 13px;
+
+}
+
+
+.card {
+
+  border:
+    1px solid
+    rgba(255,255,255,.8);
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.93);
+
+  box-shadow:
+    0 10px 30px
+    rgba(15,23,42,.07);
+
+}
+
+
+input,
+select,
+textarea {
+
+  width: 100%;
+
+  padding: 12px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 9px;
+
+  background: white;
+
+  color: var(--text);
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+}
+
+
+textarea {
+
+  min-height: 100px;
+
+  resize: vertical;
+
+}
+
+
+input:focus,
+select:focus,
+textarea:focus {
+
+  outline: none;
+
+  border-color: var(--blue);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(37,99,235,.1);
+
+}
+
+
+.form-group {
+
+  margin-bottom: 16px;
+
+}
+
+
+label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #334155;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+}
+
+
+.add-button {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+
+.time-select {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+
+.time-select select {
+
+  width: 50%;
+
+}
+
+
+/* ========================================
+   ダッシュボード
+======================================== */
+
+.stats {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap: 18px;
+
+  margin-bottom: 25px;
+
+}
+
+
+.stat-card {
+
+  padding: 20px;
+
+  border-radius: 16px;
+
+  background:
+    rgba(255,255,255,.9);
+
+  box-shadow:
+    0 8px 25px
+    rgba(15,23,42,.06);
+
+}
+
+
+.stat-top {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+}
+
+
+.stat-label {
+
+  color: var(--sub);
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+}
+
+
+.stat-icon {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+
+}
+
+
+.icon-blue {
+  background: var(--blue-light);
+}
+
+.icon-red {
+  background: var(--red-light);
+}
+
+.icon-green {
+  background: var(--green-light);
+}
+
+.icon-purple {
+  background: var(--purple-light);
+}
+
+
+.stat-number {
+
+  margin-top: 12px;
+
+  color: var(--navy);
+
+  font-size: 30px;
+
+  font-weight: 800;
+
+}
+
+
+.stat-number span {
+
+  margin-left: 3px;
+
+  color: var(--sub);
+
+  font-size: 12px;
+
+  font-weight: normal;
+
+}
+
+
+/* ========================================
+   カレンダー
+======================================== */
+
+.content-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    350px;
+
+  gap: 22px;
+
+}
+
+
+.calendar-card {
+
+  padding: 22px;
+
+}
+
+
+.calendar-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 20px;
+
+}
+
+
+.calendar-title {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+}
+
+
+.calendar-title-icon {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+
+  background: var(--blue-light);
+
+}
+
+
+.calendar-title h2 {
+
+  margin: 0;
+
+  font-size: 20px;
+
+}
+
+
+.calendar-title p {
+
+  margin: 3px 0 0;
+
+  color: var(--sub);
+
+  font-size: 11px;
+
+}
+
+
+.month-buttons {
+
+  display: flex;
+
+  gap: 6px;
+
+}
+
+
+.month-button {
+
+  width: 36px;
+  height: 36px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 9px;
+
+  background: white;
+
+  cursor: pointer;
+
+}
+
+
+.calendar {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(7,1fr);
+
+  overflow: hidden;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 12px;
+
+}
+
+
+.day-name {
+
+  padding: 11px 3px;
+
+  text-align: center;
+
+  background: #f8fafc;
+
+  color: var(--sub);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  border-bottom:
+    1px solid var(--border);
+
+}
+
+
+.day {
+
+  min-height: 120px;
+
+  padding: 8px;
+
+  background: white;
+
+  border-right:
+    1px solid var(--border);
+
+  border-bottom:
+    1px solid var(--border);
+
+  cursor: pointer;
+
+}
+
+
+.date {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border-radius: 50%;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+}
+
+
+.today .date {
+
+  background: var(--blue);
+
+  color: white;
+
+}
+
+
+.event {
+
+  margin-top: 4px;
+
+  padding: 6px;
+
+  border-radius: 7px;
+
+  color: white;
+
+  font-size: 10px;
+
+  line-height: 1.35;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+
+}
+
+
+.event-time {
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+}
+
+
+.event.es {
+  background: #7c3aed;
+}
+
+.event.interview {
+  background: #e11d48;
+}
+
+.event.company {
+  background: #059669;
+}
+
+.event.other {
+  background: #2563eb;
+}
+
+
+/* ========================================
+   予定フォーム
+======================================== */
+
+.form-card {
+
+  padding: 24px;
+
+}
+
+
+.form-header h2 {
+
+  margin: 0;
+
+  font-size: 20px;
+
+}
+
+
+.form-header p {
+
+  margin:
+    5px 0 20px;
+
+  color: var(--sub);
+
+  font-size: 11px;
+
+}
+
+
+/* ========================================
+   面接ページ
+======================================== */
+
+.interview-layout {
+
+  display: grid;
+
+  grid-template-columns:
+    380px
+    minmax(0,1fr);
+
+  gap: 22px;
+
+}
+
+
+.question-form,
+.question-list {
+
+  padding: 25px;
+
+}
+
+
+.question-form h2,
+.question-list h2 {
+
+  margin: 0;
+
+  font-size: 20px;
+
+}
+
+
+.description {
+
+  margin:
+    5px 0 25px;
+
+  color: var(--sub);
+
+  font-size: 12px;
+
+}
+
+
+.question-count {
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  background: var(--blue-light);
+
+  color: var(--blue);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+}
+
+
+.list-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 20px;
+
+}
+
+
+.question-item {
+
+  padding: 18px;
+
+  margin-bottom: 12px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 12px;
+
+}
+
+
+.question-top {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+}
+
+
+.category {
+
+  display: inline-block;
+
+  padding: 5px 9px;
+
+  border-radius: 6px;
+
+  background: var(--purple-light);
+
+  color: var(--purple);
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+}
+
+
+.question-text {
+
+  margin-top: 10px;
+
+  color: var(--navy);
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  line-height: 1.5;
+
+}
+
+
+.answer {
+
+  margin-top: 12px;
+
+  padding: 13px;
+
+  border-radius: 9px;
+
+  background: #f8fafc;
+
+  color: #475569;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+
+}
+
+
+.memo {
+
+  margin-top: 10px;
+
+  color: var(--sub);
+
+  font-size: 11px;
+
+}
+
+
+.question-actions {
+
+  display: flex;
+
+  gap: 6px;
+
+}
+
+
+.action-button {
+
+  padding: 6px 9px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 7px;
+
+  background: white;
+
+  font-size: 10px;
+
+  cursor: pointer;
+
+}
+
+
+.action-button.delete {
+
+  color: var(--red);
+
+}
+
+
+/* ========================================
+   説明会ページ
+======================================== */
+
+.company-layout {
+
+  display: grid;
+
+  grid-template-columns:
+    380px
+    minmax(0,1fr);
+
+  gap: 22px;
+
+  align-items: start;
+
+}
+
+
+.company-form {
+
+  padding: 25px;
+
+  position: sticky;
+
+  top: 25px;
+
+}
+
+
+.company-form h2 {
+
+  margin: 0;
+
+  font-size: 20px;
+
+}
+
+
+.company-form .description {
+
+  margin-bottom: 25px;
+
+}
+
+
+/* ========================================
+   企業一覧
+======================================== */
+
+.company-list {
+
+  padding: 25px;
+
+}
+
+
+.company-list-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 20px;
+
+}
+
+
+.company-list-header h2 {
+
+  margin: 0;
+
+  font-size: 20px;
+
+}
+
+
+.company-filter {
+
+  width: 180px;
+
+}
+
+
+/* ========================================
+   企業カード
+======================================== */
+
+.company-card {
+
+  margin-bottom: 15px;
+
+  padding: 20px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 14px;
+
+  background: white;
+
+  transition: .2s;
+
+}
+
+
+.company-card:hover {
+
+  border-color: #bfdbfe;
+
+  box-shadow:
+    0 8px 20px
+    rgba(37,99,235,.08);
+
+}
+
+
+.company-card-top {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 15px;
+
+}
+
+
+.company-name {
+
+  color: var(--navy);
+
+  font-size: 18px;
+
+  font-weight: 800;
+
+}
+
+
+.company-date {
+
+  margin-top: 5px;
+
+  color: var(--sub);
+
+  font-size: 11px;
+
+}
+
+
+.stars {
+
+  color: #f59e0b;
+
+  font-size: 18px;
+
+  letter-spacing: 1px;
+
+}
+
+
+.company-info {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 15px;
+
+}
+
+
+.info-tag {
+
+  padding: 6px 10px;
+
+  border-radius: 7px;
+
+  background: #f1f5f9;
+
+  color: #475569;
+
+  font-size: 10px;
+
+}
+
+
+.info-tag.green {
+
+  background: var(--green-light);
+
+  color: #047857;
+
+}
+
+
+.info-tag.orange {
+
+  background: var(--orange-light);
+
+  color: #b45309;
+
+}
+
+
+.company-section {
+
+  margin-top: 16px;
+
+  padding-top: 14px;
+
+  border-top:
+    1px solid #f1f5f9;
+
+}
+
+
+.company-section-title {
+
+  margin-bottom: 5px;
+
+  color: var(--sub);
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+}
+
+
+.company-section-text {
+
+  color: #475569;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+
+}
+
+
+.company-actions {
+
+  display: flex;
+
+  gap: 7px;
+
+  margin-top: 15px;
+
+}
+
+
+.empty {
+
+  padding: 70px 20px;
+
+  text-align: center;
+
+  color: var(--sub);
+
+}
+
+
+.empty-icon {
+
+  margin-bottom: 15px;
+
+  font-size: 45px;
+
+}
+
+
+.empty strong {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--navy);
+
+}
+
+
+/* ========================================
+   レスポンシブ
+======================================== */
+
+@media(max-width:1100px) {
+
+  .sidebar {
+
+    width: 210px;
+
+  }
+
+  .main {
+
+    width: calc(100% - 210px);
+
+    margin-left: 210px;
+
+    padding: 25px;
+
+  }
+
+  .stats {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .interview-layout,
+  .company-layout {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .company-form {
+
+    position: static;
+
+  }
+
+}
+
+
+@media(max-width:700px) {
+
+  .sidebar {
+
+    position: relative;
+
+    width: 100%;
+
+    height: auto;
+
+    padding: 15px;
+
+  }
+
+  .main {
+
+    width: 100%;
+
+    margin-left: 0;
+
+    padding: 20px 10px;
+
+  }
+
+  .logo {
+
+    margin-bottom: 15px;
+
+  }
+
+  .menu-title,
+  .sidebar-bottom {
+
+    display: none;
+
+  }
+
+  .menu {
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(3,1fr);
+
+  }
+
+  .menu-item {
+
+    justify-content: center;
+
+    padding: 9px;
+
+    font-size: 11px;
+
+  }
+
+  .stats {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+    gap: 10px;
+
+  }
+
+  .content-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .day {
+
+    min-height: 80px;
+
+  }
+
+  .company-list-header {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+  }
+
+  .company-filter {
+
+    width: 100%;
+
+  }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-  <header>
-    <h1>成績管理</h1>
-  </header>
 
-  <main>
+<div class="app">
 
-    <section>
-      <h2>総合成績</h2>
-      <p>
-        ここではすべての成績を見ることができます。
-      </p>
-    </section>
 
-    <section>
-      <h2>ランキング</h2>
-      <p>
-        ここでは選手間のランキングを見ることができます。
-      </p>
+<!-- ========================================
+     サイドバー
+======================================== -->
 
-      <img
-        src="https://raw.githubusercontent.com/mahiro1212/Baseball-Database/main/cupcake.jpg"
-        alt="ランキングのイメージ"
-      >
-    </section>
+<aside class="sidebar">
 
-  </main>
 
-  <footer>
-    <p>お問い合わせ：info@example.com</p>
+  <div class="logo">
+
+    <div class="logo-icon">
+      🎓
+    </div>
+
+    <div class="logo-text">
+
+      <strong>
+        SHUKATSU
+      </strong>
+
+      <span>
+        CAREER CALENDAR
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <p class="menu-title">
+    MENU
+  </p>
+
+
+  <div class="menu">
+
+
+    <div
+      class="menu-item active"
+      onclick="showPage('calendarPage',this)">
+
+      <span class="menu-icon">
+        📅
+      </span>
+
+      カレンダー
+
+    </div>
+
+
+    <div
+      class="menu-item"
+      onclick="showPage('interviewPage',this)">
+
+      <span class="menu-icon">
+        💼
+      </span>
+
+      面接
+
+    </div>
+
+
+    <!-- ★ 説明会 -->
+
+    <div
+      class="menu-item"
+      onclick="showPage('companyPage',this)">
+
+      <span class="menu-icon">
+        🏢
+      </span>
+
+      説明会
+
+    </div>
+
+
+    <div class="menu-item">
+
+      <span class="menu-icon">
+        📝
+      </span>
+
+      ES締切
+
+    </div>
+
+
+    <div class="menu-item">
+
+      <span class="menu-icon">
+        ⭐
+      </span>
+
+      重要予定
+
+    </div>
+
+
+  </div>
+
+
+  <div class="sidebar-bottom">
+
+    <p>
+      YOUR CAREER
+    </p>
+
+    <strong>
+      就活を、もっとスマートに。
+    </strong>
+
+  </div>
+
+
+</aside>
+
+
+<!-- ========================================
+     メイン
+======================================== -->
+
+<main class="main">
+
+
+<!-- ========================================
+     カレンダー
+======================================== -->
+
+<div
+  id="calendarPage"
+  class="page active">
+
+
+  <div class="topbar">
 
     <div>
-      <a href="#">X</a>
-      <a href="#">Instagram</a>
-      <a href="#">Facebook</a>
+
+      <h1>
+        ダッシュボード
+      </h1>
+
+      <p>
+        今日も就活を一歩前へ。
+      </p>
+
     </div>
-  </footer>
+
+  </div>
+
+
+  <div class="stats">
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <span class="stat-label">
+          今月の予定
+        </span>
+
+        <div class="stat-icon icon-blue">
+          📅
+        </div>
+
+      </div>
+
+      <div
+        class="stat-number"
+        id="totalCount">
+
+        0
+        <span>件</span>
+
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <span class="stat-label">
+          面接
+        </span>
+
+        <div class="stat-icon icon-red">
+          💼
+        </div>
+
+      </div>
+
+      <div
+        class="stat-number"
+        id="interviewCount">
+
+        0
+        <span>件</span>
+
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <span class="stat-label">
+          説明会
+        </span>
+
+        <div class="stat-icon icon-green">
+          🏢
+        </div>
+
+      </div>
+
+      <div
+        class="stat-number"
+        id="companyCount">
+
+        0
+        <span>件</span>
+
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <span class="stat-label">
+          ES締切
+        </span>
+
+        <div class="stat-icon icon-purple">
+          📝
+        </div>
+
+      </div>
+
+      <div
+        class="stat-number"
+        id="esCount">
+
+        0
+        <span>件</span>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="content-grid">
+
+
+    <section class="card calendar-card">
+
+
+      <div class="calendar-header">
+
+        <div class="calendar-title">
+
+          <div class="calendar-title-icon">
+            📅
+          </div>
+
+          <div>
+
+            <h2 id="monthTitle"></h2>
+
+            <p>
+              あなたの就活スケジュール
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="month-buttons">
+
+          <button
+            class="month-button"
+            onclick="changeMonth(-1)">
+
+            ‹
+
+          </button>
+
+          <button
+            class="month-button"
+            onclick="changeMonth(1)">
+
+            ›
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="calendar"
+        id="calendar">
+
+      </div>
+
+
+    </section>
+
+
+    <section class="card form-card">
+
+
+      <div class="form-header">
+
+        <h2>
+          ＋ 予定を追加
+        </h2>
+
+        <p>
+          新しい就活予定を登録します。
+        </p>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          📅 日付
+        </label>
+
+        <input
+          type="date"
+          id="eventDate">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          🕐 時間
+        </label>
+
+        <div class="time-select">
+
+          <select id="eventHour">
+
+            <option value="">
+              時
+            </option>
+
+          </select>
+
+          <span>:</span>
+
+          <select id="eventMinute">
+
+            <option value="">
+              分
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          📌 予定名
+        </label>
+
+        <input
+          id="eventTitle"
+          placeholder="例：株式会社〇〇 一次面接">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          📂 カテゴリー
+        </label>
+
+        <select
+          id="eventType"
+          onchange="toggleLocation()">
+
+          <option value="es">
+            📝 ES締切
+          </option>
+
+          <option value="interview">
+            💼 面接
+          </option>
+
+          <option value="company">
+            🏢 説明会・イベント
+          </option>
+
+          <option value="other">
+            ⭐ その他
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div
+        class="form-group"
+        id="locationGroup"
+        style="display:none;">
+
+        <label>
+          📍 場所
+        </label>
+
+        <input
+          id="eventLocation"
+          placeholder="例：東京都千代田区">
+
+      </div>
+
+
+      <button
+        class="add-button"
+        onclick="addEvent()">
+
+        ＋ この予定を追加する
+
+      </button>
+
+
+    </section>
+
+
+  </div>
+
+
+</div>
+
+
+<!-- ========================================
+     面接
+======================================== -->
+
+<div
+  id="interviewPage"
+  class="page">
+
+
+  <div class="interview-header">
+
+    <div>
+
+      <h1>
+        面接対策
+      </h1>
+
+      <p>
+        よく聞かれる質問と自分の回答を整理しましょう。
+      </p>
+
+    </div>
+
+    <span
+      class="question-count"
+      id="questionCount">
+
+      0問
+
+    </span>
+
+  </div>
+
+
+  <div class="interview-layout">
+
+
+    <section class="card question-form">
+
+      <h2>
+        ＋ 質問を追加
+      </h2>
+
+      <p class="description">
+        面接で聞かれそうな質問と回答を登録できます。
+      </p>
+
+
+      <div class="form-group">
+
+        <label>
+          📂 カテゴリー
+        </label>
+
+        <select id="questionCategory">
+
+          <option>
+            自己紹介
+          </option>
+
+          <option>
+            志望動機
+          </option>
+
+          <option>
+            自己PR
+          </option>
+
+          <option>
+            ガクチカ
+          </option>
+
+          <option>
+            強み・弱み
+          </option>
+
+          <option>
+            企業について
+          </option>
+
+          <option>
+            その他
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          ❓ 質問
+        </label>
+
+        <textarea
+          id="questionText"
+          placeholder="例：あなたの強みを教えてください。"></textarea>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          💬 回答
+        </label>
+
+        <textarea
+          id="answerText"
+          placeholder="実際に面接で話す回答"></textarea>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          📝 メモ
+        </label>
+
+        <textarea
+          id="memoText"
+          placeholder="話すときのポイントなど"></textarea>
+
+      </div>
+
+
+      <button
+        class="add-button"
+        onclick="addQuestion()">
+
+        ＋ 質問を登録する
+
+      </button>
+
+    </section>
+
+
+    <section class="card question-list">
+
+      <div class="list-header">
+
+        <h2>
+          質問一覧
+        </h2>
+
+        <span
+          class="question-count"
+          id="questionCount2">
+
+          0問
+
+        </span>
+
+      </div>
+
+      <div id="questionList"></div>
+
+    </section>
+
+
+  </div>
+
+
+</div>
+
+
+<!-- ========================================
+     説明会
+======================================== -->
+
+<div
+  id="companyPage"
+  class="page">
+
+
+  <div class="company-header">
+
+    <div>
+
+      <h1>
+        説明会・企業研究
+      </h1>
+
+      <p>
+        説明会で得た情報を記録して、企業研究に活かそう。
+      </p>
+
+    </div>
+
+
+    <span
+      class="question-count"
+      id="companyCountPage">
+
+      0社
+
+    </span>
+
+  </div>
+
+
+  <div class="company-layout">
+
+
+    <!-- ==================================
+         説明会登録
+    =================================== -->
+
+    <section class="card company-form">
+
+
+      <h2>
+        ＋ 説明会を追加
+      </h2>
+
+      <p class="description">
+        参加した説明会や企業の情報を記録できます。
+      </p>
+
+
+      <!-- 企業名 -->
+
+      <div class="form-group">
+
+        <label>
+          🏢 企業名
+        </label>
+
+        <input
+          id="companyName"
+          placeholder="例：株式会社〇〇">
+
+      </div>
+
+
+      <!-- 日付 -->
+
+      <div class="form-group">
+
+        <label>
+          📅 開催日
+        </label>
+
+        <input
+          type="date"
+          id="companyDate">
+
+      </div>
+
+
+      <!-- 時間 -->
+
+      <div class="form-group">
+
+        <label>
+          🕐 開催時間
+        </label>
+
+        <div class="time-select">
+
+          <select id="companyHour">
+
+            <option value="">
+              時
+            </option>
+
+          </select>
+
+          <span>:</span>
+
+          <select id="companyMinute">
+
+            <option value="">
+              分
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <!-- 開催形式 -->
+
+      <div class="form-group">
+
+        <label>
+          💻 開催形式
+        </label>
+
+        <select
+          id="companyFormat"
+          onchange="toggleCompanyLocation()">
+
+          <option value="オンライン">
+            💻 オンライン
+          </option>
+
+          <option value="対面">
+            🏢 対面
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- 場所 -->
+
+      <div
+        class="form-group"
+        id="companyLocationGroup"
+        style="display:none;">
+
+        <label>
+          📍 場所
+        </label>
+
+        <input
+          id="companyLocation"
+          placeholder="例：東京都千代田区">
+
+      </div>
+
+
+      <!-- 興味度 -->
+
+      <div class="form-group">
+
+        <label>
+          ⭐ 興味度
+        </label>
+
+        <select id="companyInterest">
+
+          <option value="1">
+            ⭐
+          </option>
+
+          <option value="2">
+            ⭐⭐
+          </option>
+
+          <option value="3">
+            ⭐⭐⭐
+          </option>
+
+          <option value="4">
+            ⭐⭐⭐⭐
+          </option>
+
+          <option value="5">
+            ⭐⭐⭐⭐⭐
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- 選考 -->
+
+      <div class="form-group">
+
+        <label>
+          🎯 選考に進みたい？
+        </label>
+
+        <select id="companySelection">
+
+          <option value="ぜひ進みたい">
+            🟢 ぜひ進みたい
+          </option>
+
+          <option value="検討する">
+            🟡 検討する
+          </option>
+
+          <option value="まだ分からない">
+            ⚪ まだ分からない
+          </option>
+
+          <option value="辞退">
+            🔴 辞退
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- 印象 -->
+
+      <div class="form-group">
+
+        <label>
+          💡 印象に残ったこと
+        </label>
+
+        <textarea
+          id="companyImpression"
+          placeholder="説明会で印象に残ったこと"></textarea>
+
+      </div>
+
+
+      <!-- 質問 -->
+
+      <div class="form-group">
+
+        <label>
+          ❓ 気になったこと
+        </label>
+
+        <textarea
+          id="companyQuestion"
+          placeholder="聞けなかった質問など"></textarea>
+
+      </div>
+
+
+      <!-- 感想 -->
+
+      <div class="form-group">
+
+        <label>
+          📝 自分の感想
+        </label>
+
+        <textarea
+          id="companyMemo"
+          placeholder="説明会を受けて感じたこと"></textarea>
+
+      </div>
+
+
+      <button
+        class="add-button"
+        onclick="addCompany()">
+
+        ＋ 説明会を登録する
+
+      </button>
+
+
+    </section>
+
+
+    <!-- ==================================
+         企業一覧
+    =================================== -->
+
+    <section class="card company-list">
+
+
+      <div class="company-list-header">
+
+        <h2>
+          参加した説明会
+        </h2>
+
+
+        <select
+          class="company-filter"
+          id="companyFilter"
+          onchange="renderCompanies()">
+
+          <option value="all">
+            すべて表示
+          </option>
+
+          <option value="5">
+            ⭐⭐⭐⭐⭐
+          </option>
+
+          <option value="4">
+            ⭐⭐⭐⭐以上
+          </option>
+
+          <option value="3">
+            ⭐⭐⭐以上
+          </option>
+
+          <option value="進みたい">
+            選考に進みたい
+          </option>
+
+        </select>
+
+
+      </div>
+
+
+      <div id="companyList">
+
+      </div>
+
+
+    </section>
+
+
+  </div>
+
+
+</div>
+
+
+</main>
+
+</div>
+
+
+<script>
+
+
+/* ========================================
+   時間セレクト作成
+======================================== */
+
+function createTimeOptions() {
+
+
+  const hours = [
+    "eventHour",
+    "companyHour"
+  ];
+
+
+  const minutes = [
+    "eventMinute",
+    "companyMinute"
+  ];
+
+
+  hours.forEach(id => {
+
+    const select =
+      document.getElementById(id);
+
+
+    for(let i=0;i<24;i++) {
+
+      const value =
+        String(i).padStart(2,"0");
+
+
+      select.innerHTML +=
+        `<option value="${value}">
+          ${value}
+        </option>`;
+
+    }
+
+  });
+
+
+  minutes.forEach(id => {
+
+    const select =
+      document.getElementById(id);
+
+
+    for(let i=0;i<60;i+=5) {
+
+      const value =
+        String(i).padStart(2,"0");
+
+
+      select.innerHTML +=
+        `<option value="${value}">
+          ${value}
+        </option>`;
+
+    }
+
+  });
+
+}
+
+
+/* ========================================
+   ページ切り替え
+======================================== */
+
+function showPage(
+  pageId,
+  element
+) {
+
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
+
+      page.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  document
+    .getElementById(pageId)
+    .classList.add(
+      "active"
+    );
+
+
+  document
+    .querySelectorAll(".menu-item")
+    .forEach(item => {
+
+      item.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  element.classList.add(
+    "active"
+  );
+
+
+  if(pageId === "interviewPage") {
+
+    renderQuestions();
+
+  }
+
+
+  if(pageId === "companyPage") {
+
+    renderCompanies();
+
+  }
+
+}
+
+
+/* ========================================
+   カレンダー
+======================================== */
+
+let currentDate =
+  new Date();
+
+
+let events = [];
+
+
+function renderCalendar() {
+
+
+  const calendar =
+    document.getElementById(
+      "calendar"
+    );
+
+
+  const title =
+    document.getElementById(
+      "monthTitle"
+    );
+
+
+  calendar.innerHTML = `
+
+    <div class="day-name">日</div>
+    <div class="day-name">月</div>
+    <div class="day-name">火</div>
+    <div class="day-name">水</div>
+    <div class="day-name">木</div>
+    <div class="day-name">金</div>
+    <div class="day-name">土</div>
+
+  `;
+
+
+  const year =
+    currentDate.getFullYear();
+
+
+  const month =
+    currentDate.getMonth();
+
+
+  title.textContent =
+    `${year}年 ${month+1}月`;
+
+
+  const firstDay =
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
+
+
+  const lastDate =
+    new Date(
+      year,
+      month+1,
+      0
+    ).getDate();
+
+
+  for(
+    let i=0;
+    i<firstDay;
+    i++
+  ) {
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+    empty.className =
+      "day";
+
+    calendar.appendChild(
+      empty
+    );
+
+  }
+
+
+  for(
+    let date=1;
+    date<=lastDate;
+    date++
+  ) {
+
+
+    const day =
+      document.createElement(
+        "div"
+      );
+
+
+    day.className =
+      "day";
+
+
+    const dateElement =
+      document.createElement(
+        "div"
+      );
+
+
+    dateElement.className =
+      "date";
+
+
+    dateElement.textContent =
+      date;
+
+
+    day.appendChild(
+      dateElement
+    );
+
+
+    const today =
+      new Date();
+
+
+    if(
+      date === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear()
+    ) {
+
+      day.classList.add(
+        "today"
+      );
+
+    }
+
+
+    const dateString =
+      `${year}-${String(month+1).padStart(2,"0")}-${String(date).padStart(2,"0")}`;
+
+
+    events
+      .filter(
+        e =>
+          e.date === dateString
+      )
+      .forEach(
+        event => {
+
+
+          const element =
+            document.createElement(
+              "div"
+            );
+
+
+          element.className =
+            `event ${event.type}`;
+
+
+          element.innerHTML =
+            `${event.time}<br>${escapeHTML(event.title)}`;
+
+
+          day.appendChild(
+            element
+          );
+
+        }
+      );
+
+
+    day.onclick = () => {
+
+      document.getElementById(
+        "eventDate"
+      ).value =
+        dateString;
+
+    };
+
+
+    calendar.appendChild(
+      day
+    );
+
+  }
+
+
+  updateStats();
+
+}
+
+
+/* ========================================
+   月移動
+======================================== */
+
+function changeMonth(
+  amount
+) {
+
+  currentDate.setMonth(
+    currentDate.getMonth()+amount
+  );
+
+  renderCalendar();
+
+}
+
+
+/* ========================================
+   場所
+======================================== */
+
+function toggleLocation() {
+
+
+  const type =
+    document.getElementById(
+      "eventType"
+    ).value;
+
+
+  document.getElementById(
+    "locationGroup"
+  ).style.display =
+
+    type === "interview" ||
+    type === "company"
+
+      ? "block"
+      : "none";
+
+}
+
+
+function toggleCompanyLocation() {
+
+
+  const format =
+    document.getElementById(
+      "companyFormat"
+    ).value;
+
+
+  document.getElementById(
+    "companyLocationGroup"
+  ).style.display =
+
+    format === "対面"
+      ? "block"
+      : "none";
+
+}
+
+
+/* ========================================
+   イベント追加
+======================================== */
+
+function addEvent() {
+
+
+  const date =
+    document.getElementById(
+      "eventDate"
+    ).value;
+
+
+  const hour =
+    document.getElementById(
+      "eventHour"
+    ).value;
+
+
+  const minute =
+    document.getElementById(
+      "eventMinute"
+    ).value;
+
+
+  const title =
+    document.getElementById(
+      "eventTitle"
+    ).value.trim();
+
+
+  const type =
+    document.getElementById(
+      "eventType"
+    ).value;
+
+
+  if(
+    !date ||
+    !hour ||
+    !minute ||
+    !title
+  ) {
+
+    alert(
+      "日付・時間・予定名を入力してください。"
+    );
+
+    return;
+
+  }
+
+
+  events.push({
+
+    date,
+
+    time:
+      `${hour}:${minute}`,
+
+    title,
+
+    type
+
+  });
+
+
+  document.getElementById(
+    "eventTitle"
+  ).value = "";
+
+
+  renderCalendar();
+
+}
+
+
+/* ========================================
+   統計
+======================================== */
+
+function updateStats() {
+
+
+  const year =
+    currentDate.getFullYear();
+
+
+  const month =
+    currentDate.getMonth();
+
+
+  const list =
+    events.filter(e => {
+
+      const d =
+        new Date(e.date);
+
+      return
+        d.getFullYear() === year &&
+        d.getMonth() === month;
+
+    });
+
+
+  document.getElementById(
+    "totalCount"
+  ).innerHTML =
+    `${list.length}<span>件</span>`;
+
+
+  document.getElementById(
+    "interviewCount"
+  ).innerHTML =
+    `${list.filter(e=>e.type==="interview").length}<span>件</span>`;
+
+
+  document.getElementById(
+    "companyCount"
+  ).innerHTML =
+    `${list.filter(e=>e.type==="company").length}<span>件</span>`;
+
+
+  document.getElementById(
+    "esCount"
+  ).innerHTML =
+    `${list.filter(e=>e.type==="es").length}<span>件</span>`;
+
+}
+
+
+/* ========================================
+   面接質問
+======================================== */
+
+let questions = [];
+
+
+function addQuestion() {
+
+
+  const category =
+    document.getElementById(
+      "questionCategory"
+    ).value;
+
+
+  const question =
+    document.getElementById(
+      "questionText"
+    ).value.trim();
+
+
+  const answer =
+    document.getElementById(
+      "answerText"
+    ).value.trim();
+
+
+  const memo =
+    document.getElementById(
+      "memoText"
+    ).value.trim();
+
+
+  if(
+    !question ||
+    !answer
+  ) {
+
+    alert(
+      "質問と回答を入力してください。"
+    );
+
+    return;
+
+  }
+
+
+  questions.push({
+
+    id: Date.now(),
+
+    category,
+
+    question,
+
+    answer,
+
+    memo
+
+  });
+
+
+  document.getElementById(
+    "questionText"
+  ).value = "";
+
+
+  document.getElementById(
+    "answerText"
+  ).value = "";
+
+
+  document.getElementById(
+    "memoText"
+  ).value = "";
+
+
+  renderQuestions();
+
+}
+
+
+function renderQuestions() {
+
+
+  const list =
+    document.getElementById(
+      "questionList"
+    );
+
+
+  document.getElementById(
+    "questionCount"
+  ).textContent =
+    `${questions.length}問`;
+
+
+  document.getElementById(
+    "questionCount2"
+  ).textContent =
+    `${questions.length}問`;
+
+
+  if(!questions.length) {
+
+    list.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          💼
+        </div>
+
+        <strong>
+          まだ質問がありません
+        </strong>
+
+        <span>
+          左側から質問を追加してください。
+        </span>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  questions
+    .slice()
+    .reverse()
+    .forEach(q => {
+
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "question-item";
+
+
+      item.innerHTML = `
+
+        <div class="question-top">
+
+          <span class="category">
+            ${escapeHTML(q.category)}
+          </span>
+
+          <div class="question-actions">
+
+            <button
+              class="action-button"
+              onclick="editQuestion(${q.id})">
+
+              編集
+
+            </button>
+
+            <button
+              class="action-button delete"
+              onclick="deleteQuestion(${q.id})">
+
+              削除
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="question-text">
+
+          Q.
+          ${escapeHTML(q.question)}
+
+        </div>
+
+
+        <div class="answer">
+
+          <strong>A.</strong>
+
+          ${escapeHTML(q.answer)}
+
+        </div>
+
+
+        ${
+          q.memo
+            ? `
+              <div class="memo">
+                📝 ${escapeHTML(q.memo)}
+              </div>
+            `
+            : ""
+        }
+
+      `;
+
+
+      list.appendChild(
+        item
+      );
+
+    });
+
+}
+
+
+function deleteQuestion(id) {
+
+
+  if(
+    !confirm(
+      "この質問を削除しますか？"
+    )
+  ) return;
+
+
+  questions =
+    questions.filter(
+      q => q.id !== id
+    );
+
+
+  renderQuestions();
+
+}
+
+
+function editQuestion(id) {
+
+
+  const q =
+    questions.find(
+      x => x.id === id
+    );
+
+
+  if(!q) return;
+
+
+  document.getElementById(
+    "questionCategory"
+  ).value =
+    q.category;
+
+
+  document.getElementById(
+    "questionText"
+  ).value =
+    q.question;
+
+
+  document.getElementById(
+    "answerText"
+  ).value =
+    q.answer;
+
+
+  document.getElementById(
+    "memoText"
+  ).value =
+    q.memo;
+
+
+  questions =
+    questions.filter(
+      x => x.id !== id
+    );
+
+
+  renderQuestions();
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ========================================
+   説明会・企業
+======================================== */
+
+let companies = [];
+
+
+function addCompany() {
+
+
+  const name =
+    document.getElementById(
+      "companyName"
+    ).value.trim();
+
+
+  const date =
+    document.getElementById(
+      "companyDate"
+    ).value;
+
+
+  const hour =
+    document.getElementById(
+      "companyHour"
+    ).value;
+
+
+  const minute =
+    document.getElementById(
+      "companyMinute"
+    ).value;
+
+
+  const format =
+    document.getElementById(
+      "companyFormat"
+    ).value;
+
+
+  const location =
+    document.getElementById(
+      "companyLocation"
+    ).value.trim();
+
+
+  const interest =
+    Number(
+      document.getElementById(
+        "companyInterest"
+      ).value
+    );
+
+
+  const selection =
+    document.getElementById(
+      "companySelection"
+    ).value;
+
+
+  const impression =
+    document.getElementById(
+      "companyImpression"
+    ).value.trim();
+
+
+  const question =
+    document.getElementById(
+      "companyQuestion"
+    ).value.trim();
+
+
+  const memo =
+    document.getElementById(
+      "companyMemo"
+    ).value.trim();
+
+
+  /*
+   * 入力チェック
+   */
+
+  if(
+    !name ||
+    !date ||
+    !hour ||
+    !minute
+  ) {
+
+    alert(
+      "企業名・開催日・開催時間を入力してください。"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    format === "対面" &&
+    !location
+  ) {
+
+    alert(
+      "対面の場合は場所を入力してください。"
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * 登録
+   */
+
+  companies.push({
+
+    id: Date.now(),
+
+    name,
+
+    date,
+
+    time:
+      `${hour}:${minute}`,
+
+    format,
+
+    location,
+
+    interest,
+
+    selection,
+
+    impression,
+
+    question,
+
+    memo
+
+  });
+
+
+  /*
+   * フォームクリア
+   */
+
+  document.getElementById(
+    "companyName"
+  ).value = "";
+
+
+  document.getElementById(
+    "companyLocation"
+  ).value = "";
+
+
+  document.getElementById(
+    "companyImpression"
+  ).value = "";
+
+
+  document.getElementById(
+    "companyQuestion"
+  ).value = "";
+
+
+  document.getElementById(
+    "companyMemo"
+  ).value = "";
+
+
+  renderCompanies();
+
+
+  alert(
+    "説明会を登録しました！"
+  );
+
+}
+
+
+/* ========================================
+   企業一覧
+======================================== */
+
+function renderCompanies() {
+
+
+  const list =
+    document.getElementById(
+      "companyList"
+    );
+
+
+  const filter =
+    document.getElementById(
+      "companyFilter"
+    ).value;
+
+
+  document.getElementById(
+    "companyCountPage"
+  ).textContent =
+    `${companies.length}社`;
+
+
+  let filtered =
+    [...companies];
+
+
+  /*
+   * フィルター
+   */
+
+  if(filter === "5") {
+
+    filtered =
+      filtered.filter(
+        c => c.interest === 5
+      );
+
+  }
+
+
+  if(filter === "4") {
+
+    filtered =
+      filtered.filter(
+        c => c.interest >= 4
+      );
+
+  }
+
+
+  if(filter === "3") {
+
+    filtered =
+      filtered.filter(
+        c => c.interest >= 3
+      );
+
+  }
+
+
+  if(filter === "進みたい") {
+
+    filtered =
+      filtered.filter(
+        c =>
+          c.selection ===
+          "ぜひ進みたい"
+      );
+
+  }
+
+
+  if(!filtered.length) {
+
+    list.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          🏢
+        </div>
+
+        <strong>
+          まだ説明会の記録がありません
+        </strong>
+
+        <span>
+          左側から参加した説明会を登録してみましょう。
+        </span>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  /*
+   * 新しい順
+   */
+
+  filtered
+    .slice()
+    .reverse()
+    .forEach(company => {
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "company-card";
+
+
+      const stars =
+        "★".repeat(
+          company.interest
+        )
+        +
+        "☆".repeat(
+          5-company.interest
+        );
+
+
+      let selectionClass =
+        "orange";
+
+
+      if(
+        company.selection ===
+        "ぜひ進みたい"
+      ) {
+
+        selectionClass =
+          "green";
+
+      }
+
+
+      card.innerHTML = `
+
+        <div class="company-card-top">
+
+          <div>
+
+            <div class="company-name">
+
+              🏢
+              ${escapeHTML(
+                company.name
+              )}
+
+            </div>
+
+            <div class="company-date">
+
+              📅
+              ${formatDate(
+                company.date
+              )}
+
+             　
+
+              🕐
+              ${company.time}
+
+            </div>
+
+          </div>
+
+
+          <div class="stars">
+
+            ${stars}
+
+          </div>
+
+        </div>
+
+
+        <div class="company-info">
+
+          <span class="info-tag">
+
+            ${
+              company.format ===
+              "オンライン"
+                ? "💻 オンライン"
+                : "🏢 対面"
+            }
+
+          </span>
+
+
+          ${
+            company.location
+              ?
+              `
+              <span class="info-tag">
+                📍
+                ${escapeHTML(
+                  company.location
+                )}
+              </span>
+              `
+              :
+              ""
+          }
+
+
+          <span
+            class="info-tag ${selectionClass}">
+
+            🎯
+            ${escapeHTML(
+              company.selection
+            )}
+
+          </span>
+
+        </div>
+
+
+        ${
+          company.impression
+            ?
+            `
+            <div class="company-section">
+
+              <div class="company-section-title">
+                💡 印象に残ったこと
+              </div>
+
+              <div class="company-section-text">
+                ${escapeHTML(
+                  company.impression
+                )}
+              </div>
+
+            </div>
+            `
+            :
+            ""
+        }
+
+
+        ${
+          company.question
+            ?
+            `
+            <div class="company-section">
+
+              <div class="company-section-title">
+                ❓ 気になったこと
+              </div>
+
+              <div class="company-section-text">
+                ${escapeHTML(
+                  company.question
+                )}
+              </div>
+
+            </div>
+            `
+            :
+            ""
+        }
+
+
+        ${
+          company.memo
+            ?
+            `
+            <div class="company-section">
+
+              <div class="company-section-title">
+                📝 自分の感想
+              </div>
+
+              <div class="company-section-text">
+                ${escapeHTML(
+                  company.memo
+                )}
+              </div>
+
+            </div>
+            `
+            :
+            ""
+        }
+
+
+        <div class="company-actions">
+
+          <button
+            class="action-button"
+            onclick="editCompany(${company.id})">
+
+            編集
+
+          </button>
+
+
+          <button
+            class="action-button delete"
+            onclick="deleteCompany(${company.id})">
+
+            削除
+
+          </button>
+
+        </div>
+
+      `;
+
+
+      list.appendChild(
+        card
+      );
+
+    });
+
+}
+
+
+/* ========================================
+   企業削除
+======================================== */
+
+function deleteCompany(id) {
+
+
+  if(
+    !confirm(
+      "この説明会の記録を削除しますか？"
+    )
+  ) return;
+
+
+  companies =
+    companies.filter(
+      c => c.id !== id
+    );
+
+
+  renderCompanies();
+
+}
+
+
+/* ========================================
+   企業編集
+======================================== */
+
+function editCompany(id) {
+
+
+  const company =
+    companies.find(
+      c => c.id === id
+    );
+
+
+  if(!company) return;
+
+
+  document.getElementById(
+    "companyName"
+  ).value =
+    company.name;
+
+
+  document.getElementById(
+    "companyDate"
+  ).value =
+    company.date;
+
+
+  document.getElementById(
+    "companyHour"
+  ).value =
+    company.time.split(":")[0];
+
+
+  document.getElementById(
+    "companyMinute"
+  ).value =
+    company.time.split(":")[1];
+
+
+  document.getElementById(
+    "companyFormat"
+  ).value =
+    company.format;
+
+
+  toggleCompanyLocation();
+
+
+  document.getElementById(
+    "companyLocation"
+  ).value =
+    company.location;
+
+
+  document.getElementById(
+    "companyInterest"
+  ).value =
+    company.interest;
+
+
+  document.getElementById(
+    "companySelection"
+  ).value =
+    company.selection;
+
+
+  document.getElementById(
+    "companyImpression"
+  ).value =
+    company.impression;
+
+
+  document.getElementById(
+    "companyQuestion"
+  ).value =
+    company.question;
+
+
+  document.getElementById(
+    "companyMemo"
+  ).value =
+    company.memo;
+
+
+  companies =
+    companies.filter(
+      c => c.id !== id
+    );
+
+
+  renderCompanies();
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ========================================
+   日付表示
+======================================== */
+
+function formatDate(date) {
+
+
+  const parts =
+    date.split("-");
+
+
+  return `${parts[0]}年${Number(parts[1])}月${Number(parts[2])}日`;
+
+}
+
+
+/* ========================================
+   HTMLエスケープ
+======================================== */
+
+function escapeHTML(text) {
+
+  return String(text)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* ========================================
+   初期化
+======================================== */
+
+createTimeOptions();
+
+renderCalendar();
+
+renderQuestions();
+
+renderCompanies();
+
+</script>
+
 
 </body>
+
 </html>
